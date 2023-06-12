@@ -1,0 +1,335 @@
+Collecting lightning[extra]
+  Downloading lightning-2.0.3-py3-none-any.whl (1.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 13.7 MB/s eta 0:00:00
+Collecting croniter<1.4.0,>=1.3.0
+  Downloading croniter-1.3.15-py2.py3-none-any.whl (19 kB)
+Requirement already satisfied: requests<4.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (2.31.0)
+Requirement already satisfied: starlette in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (0.27.0)
+Requirement already satisfied: torch<4.0,>=1.11.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (2.0.1)
+Collecting deepdiff<8.0,>=5.7.0
+  Downloading deepdiff-6.3.0-py3-none-any.whl (69 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.7/69.7 kB 5.0 MB/s eta 0:00:00
+Requirement already satisfied: fsspec[http]<2025.0,>2021.06.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (2023.6.0)
+Collecting arrow<3.0,>=1.2.0
+  Downloading arrow-1.2.3-py3-none-any.whl (66 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.4/66.4 kB 7.2 MB/s eta 0:00:00
+Collecting lightning-cloud>=0.5.34
+  Downloading lightning_cloud-0.5.36-py3-none-any.whl (562 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 562.4/562.4 kB 13.4 MB/s eta 0:00:00
+Requirement already satisfied: click<10.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (8.1.3)
+Collecting starsessions<2.0,>=1.2.1
+  Downloading starsessions-1.3.0-py3-none-any.whl (10 kB)
+Requirement already satisfied: typing-extensions<6.0,>=4.0.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (4.6.3)
+Requirement already satisfied: Jinja2<5.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (3.1.2)
+Requirement already satisfied: packaging in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (23.1)
+Requirement already satisfied: PyYAML<8.0,>=5.4 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (6.0)
+Collecting uvicorn<2.0
+  Downloading uvicorn-0.22.0-py3-none-any.whl (58 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.3/58.3 kB 3.1 MB/s eta 0:00:00
+Requirement already satisfied: rich<15.0,>=12.3.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (13.4.1)
+Requirement already satisfied: pydantic<4.0,>=1.7.4 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (1.10.9)
+Requirement already satisfied: urllib3<3.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (1.26.16)
+Requirement already satisfied: tqdm<6.0,>=4.57.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (4.65.0)
+Collecting inquirer<5.0,>=2.10.0
+  Downloading inquirer-3.1.3-py3-none-any.whl (18 kB)
+Collecting websockets<12.0
+  Downloading websockets-11.0.3-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (129 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 129.9/129.9 kB 8.9 MB/s eta 0:00:00
+Collecting beautifulsoup4<6.0,>=4.8.0
+  Downloading beautifulsoup4-4.12.2-py3-none-any.whl (142 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 143.0/143.0 kB 10.2 MB/s eta 0:00:00
+Collecting psutil<7.0
+  Downloading psutil-5.9.5-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (282 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 282.1/282.1 kB 7.5 MB/s eta 0:00:00
+Requirement already satisfied: pytorch-lightning in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (2.0.3)
+Requirement already satisfied: lightning-utilities<2.0,>=0.7.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (0.8.0)
+Collecting fastapi<0.89.0,>=0.69.0
+  Downloading fastapi-0.88.0-py3-none-any.whl (55 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 55.5/55.5 kB 5.3 MB/s eta 0:00:00
+Collecting traitlets<7.0,>=5.3.0
+  Downloading traitlets-5.9.0-py3-none-any.whl (117 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 117.4/117.4 kB 5.0 MB/s eta 0:00:00
+Collecting dateutils<2.0
+  Downloading dateutils-0.6.12-py2.py3-none-any.whl (5.7 kB)
+Collecting python-multipart<2.0,>=0.0.5
+  Downloading python_multipart-0.0.6-py3-none-any.whl (45 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.7/45.7 kB 4.5 MB/s eta 0:00:00
+Requirement already satisfied: numpy<3.0,>=1.17.2 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (1.24.3)
+Requirement already satisfied: torchmetrics<2.0,>=0.7.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (0.11.4)
+Requirement already satisfied: websocket-client<3.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (1.5.3)
+Requirement already satisfied: docker<7.0,>=5.0.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (6.1.3)
+Collecting panel<1.0,>=0.12.7
+  Downloading panel-0.14.4-py2.py3-none-any.whl (20.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 20.8/20.8 MB 14.1 MB/s eta 0:00:00
+Collecting jsonargparse[signatures]<5.0,>=4.18.0
+  Downloading jsonargparse-4.21.2-py3-none-any.whl (192 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 192.3/192.3 kB 11.1 MB/s eta 0:00:00
+Collecting s3fs<2023.0,>=2022.5.0
+  Downloading s3fs-2022.11.0-py3-none-any.whl (27 kB)
+Collecting lightning-api-access>=0.0.3
+  Downloading lightning_api_access-0.0.5-py3-none-any.whl (888 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 888.9/888.9 kB 14.4 MB/s eta 0:00:00
+Requirement already satisfied: omegaconf<3.0,>=2.0.5 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (2.3.0)
+Collecting redis<5.0,>=4.0.1
+  Downloading redis-4.5.5-py3-none-any.whl (240 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 240.3/240.3 kB 13.0 MB/s eta 0:00:00
+Collecting lightning-fabric>=1.9.0
+  Downloading lightning_fabric-2.0.3-py3-none-any.whl (178 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 178.6/178.6 kB 11.4 MB/s eta 0:00:00
+Requirement already satisfied: matplotlib<4.0,>3.1 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (3.7.1)
+Requirement already satisfied: aiohttp<4.0,>=3.8.0 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (3.8.4)
+Collecting streamlit<2.0,>=1.13.0
+  Downloading streamlit-1.23.1-py2.py3-none-any.whl (8.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.9/8.9 MB 19.1 MB/s eta 0:00:00
+Collecting tensorboardX<3.0,>=2.2
+  Downloading tensorboardX-2.6-py2.py3-none-any.whl (114 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 114.5/114.5 kB 12.2 MB/s eta 0:00:00
+Requirement already satisfied: hydra-core<2.0,>=1.0.5 in /usr/local/lib/python3.10/site-packages (from lightning[extra]) (1.3.2)
+Requirement already satisfied: multidict<7.0,>=4.5 in /usr/local/lib/python3.10/site-packages (from aiohttp<4.0,>=3.8.0->lightning[extra]) (6.0.4)
+Requirement already satisfied: yarl<2.0,>=1.0 in /usr/local/lib/python3.10/site-packages (from aiohttp<4.0,>=3.8.0->lightning[extra]) (1.9.2)
+Requirement already satisfied: charset-normalizer<4.0,>=2.0 in /usr/local/lib/python3.10/site-packages (from aiohttp<4.0,>=3.8.0->lightning[extra]) (3.1.0)
+Requirement already satisfied: attrs>=17.3.0 in /usr/local/lib/python3.10/site-packages (from aiohttp<4.0,>=3.8.0->lightning[extra]) (23.1.0)
+Requirement already satisfied: frozenlist>=1.1.1 in /usr/local/lib/python3.10/site-packages (from aiohttp<4.0,>=3.8.0->lightning[extra]) (1.3.3)
+Requirement already satisfied: aiosignal>=1.1.2 in /usr/local/lib/python3.10/site-packages (from aiohttp<4.0,>=3.8.0->lightning[extra]) (1.3.1)
+Requirement already satisfied: async-timeout<5.0,>=4.0.0a3 in /usr/local/lib/python3.10/site-packages (from aiohttp<4.0,>=3.8.0->lightning[extra]) (4.0.2)
+Requirement already satisfied: python-dateutil>=2.7.0 in /usr/local/lib/python3.10/site-packages (from arrow<3.0,>=1.2.0->lightning[extra]) (2.8.2)
+Collecting soupsieve>1.2
+  Downloading soupsieve-2.4.1-py3-none-any.whl (36 kB)
+Requirement already satisfied: pytz in /usr/local/lib/python3.10/site-packages (from dateutils<2.0->lightning[extra]) (2023.3)
+Collecting ordered-set<4.2.0,>=4.0.2
+  Downloading ordered_set-4.1.0-py3-none-any.whl (7.6 kB)
+Collecting starlette
+  Downloading starlette-0.22.0-py3-none-any.whl (64 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.3/64.3 kB 3.7 MB/s eta 0:00:00
+Requirement already satisfied: anyio<5,>=3.4.0 in /usr/local/lib/python3.10/site-packages (from starlette->lightning[extra]) (3.7.0)
+Requirement already satisfied: antlr4-python3-runtime==4.9.* in /usr/local/lib/python3.10/site-packages (from hydra-core<2.0,>=1.0.5->lightning[extra]) (4.9.3)
+Collecting python-editor>=1.0.4
+  Downloading python_editor-1.0.4-py3-none-any.whl (4.9 kB)
+Collecting readchar>=3.0.6
+  Downloading readchar-4.0.5-py3-none-any.whl (8.5 kB)
+Collecting blessed>=1.19.0
+  Downloading blessed-1.20.0-py2.py3-none-any.whl (58 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.4/58.4 kB 4.9 MB/s eta 0:00:00
+Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib/python3.10/site-packages (from Jinja2<5.0->lightning[extra]) (2.1.3)
+Collecting docstring-parser>=0.15
+  Downloading docstring_parser-0.15-py3-none-any.whl (36 kB)
+Collecting typeshed-client>=2.1.0
+  Downloading typeshed_client-2.3.0-py3-none-any.whl (581 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 581.6/581.6 kB 12.2 MB/s eta 0:00:00
+Requirement already satisfied: six in /usr/local/lib/python3.10/site-packages (from lightning-cloud>=0.5.34->lightning[extra]) (1.16.0)
+Requirement already satisfied: pyjwt in /usr/local/lib/python3.10/site-packages (from lightning-cloud>=0.5.34->lightning[extra]) (2.7.0)
+Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.10/site-packages (from matplotlib<4.0,>3.1->lightning[extra]) (1.4.4)
+Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.10/site-packages (from matplotlib<4.0,>3.1->lightning[extra]) (4.39.4)
+Requirement already satisfied: pillow>=6.2.0 in /usr/local/lib/python3.10/site-packages (from matplotlib<4.0,>3.1->lightning[extra]) (9.5.0)
+Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.10/site-packages (from matplotlib<4.0,>3.1->lightning[extra]) (0.11.0)
+Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.10/site-packages (from matplotlib<4.0,>3.1->lightning[extra]) (1.0.7)
+Requirement already satisfied: pyparsing>=2.3.1 in /usr/local/lib/python3.10/site-packages (from matplotlib<4.0,>3.1->lightning[extra]) (3.0.9)
+Collecting pyviz-comms>=0.7.4
+  Downloading pyviz_comms-2.3.1-py2.py3-none-any.whl (45 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.5/45.5 kB 4.5 MB/s eta 0:00:00
+Collecting param>=1.12.0
+  Downloading param-1.13.0-py2.py3-none-any.whl (87 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 87.3/87.3 kB 7.3 MB/s eta 0:00:00
+Collecting bokeh<2.5.0,>=2.4.0
+  Downloading bokeh-2.4.3-py3-none-any.whl (18.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 18.5/18.5 MB 14.2 MB/s eta 0:00:00
+Collecting pyct>=0.4.4
+  Downloading pyct-0.5.0-py2.py3-none-any.whl (15 kB)
+Requirement already satisfied: markdown in /usr/local/lib/python3.10/site-packages (from panel<1.0,>=0.12.7->lightning[extra]) (3.4.3)
+Collecting bleach
+  Downloading bleach-6.0.0-py3-none-any.whl (162 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 162.5/162.5 kB 9.9 MB/s eta 0:00:00
+Requirement already satisfied: setuptools>=42 in /usr/local/lib/python3.10/site-packages (from panel<1.0,>=0.12.7->lightning[extra]) (65.5.1)
+Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.10/site-packages (from requests<4.0->lightning[extra]) (2023.5.7)
+Requirement already satisfied: idna<4,>=2.5 in /usr/local/lib/python3.10/site-packages (from requests<4.0->lightning[extra]) (3.4)
+Requirement already satisfied: markdown-it-py<3.0.0,>=2.2.0 in /usr/local/lib/python3.10/site-packages (from rich<15.0,>=12.3.0->lightning[extra]) (2.2.0)
+Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /usr/local/lib/python3.10/site-packages (from rich<15.0,>=12.3.0->lightning[extra]) (2.15.1)
+Collecting aiobotocore~=2.4.0
+  Downloading aiobotocore-2.4.2-py3-none-any.whl (66 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.8/66.8 kB 6.8 MB/s eta 0:00:00
+Collecting s3fs<2023.0,>=2022.5.0
+  Downloading s3fs-2022.10.0-py3-none-any.whl (27 kB)
+  Downloading s3fs-2022.8.2-py3-none-any.whl (27 kB)
+  Downloading s3fs-2022.8.1-py3-none-any.whl (27 kB)
+  Downloading s3fs-2022.8.0-py3-none-any.whl (27 kB)
+  Downloading s3fs-2022.7.1-py3-none-any.whl (27 kB)
+Collecting aiobotocore~=2.3.4
+  Downloading aiobotocore-2.3.4-py3-none-any.whl (64 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.7/64.7 kB 6.2 MB/s eta 0:00:00
+Collecting s3fs<2023.0,>=2022.5.0
+  Downloading s3fs-2022.7.0-py3-none-any.whl (27 kB)
+  Downloading s3fs-2022.5.0-py3-none-any.whl (27 kB)
+INFO: pip is looking at multiple versions of rich to determine which version is compatible with other requirements. This could take a while.
+Collecting rich<15.0,>=12.3.0
+  Downloading rich-13.4.1-py3-none-any.whl (239 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 239.4/239.4 kB 15.7 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of requests to determine which version is compatible with other requirements. This could take a while.
+Collecting requests<4.0
+  Downloading requests-2.31.0-py3-none-any.whl (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.6/62.6 kB 5.5 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of redis to determine which version is compatible with other requirements. This could take a while.
+Collecting redis<5.0,>=4.0.1
+  Downloading redis-4.5.4-py3-none-any.whl (238 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 238.9/238.9 kB 12.9 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of pyyaml to determine which version is compatible with other requirements. This could take a while.
+Collecting PyYAML<8.0,>=5.4
+  Downloading PyYAML-6.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (682 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 682.2/682.2 kB 14.3 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of pytorch-lightning to determine which version is compatible with other requirements. This could take a while.
+Collecting pytorch-lightning
+  Downloading pytorch_lightning-2.0.3-py3-none-any.whl (720 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 720.6/720.6 kB 6.0 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of python-multipart to determine which version is compatible with other requirements. This could take a while.
+Collecting python-multipart<2.0,>=0.0.5
+  Downloading python-multipart-0.0.5.tar.gz (32 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+INFO: pip is looking at multiple versions of pydantic to determine which version is compatible with other requirements. This could take a while.
+Collecting pydantic<4.0,>=1.7.4
+  Downloading pydantic-1.10.9-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 13.8 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of psutil to determine which version is compatible with other requirements. This could take a while.
+Collecting psutil<7.0
+  Downloading psutil-5.9.4-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (280 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 280.2/280.2 kB 10.3 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of panel to determine which version is compatible with other requirements. This could take a while.
+Collecting panel<1.0,>=0.12.7
+  Downloading panel-0.14.3-py2.py3-none-any.whl (17.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.1/17.1 MB 10.1 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of packaging to determine which version is compatible with other requirements. This could take a while.
+Collecting packaging
+  Downloading packaging-23.1-py3-none-any.whl (48 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.9/48.9 kB 3.3 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of omegaconf to determine which version is compatible with other requirements. This could take a while.
+Collecting omegaconf<3.0,>=2.0.5
+  Downloading omegaconf-2.3.0-py3-none-any.whl (79 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 79.5/79.5 kB 7.4 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of numpy to determine which version is compatible with other requirements. This could take a while.
+Collecting numpy<3.0,>=1.17.2
+  Downloading numpy-1.24.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (17.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.3/17.3 MB 15.6 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of matplotlib to determine which version is compatible with other requirements. This could take a while.
+Collecting matplotlib<4.0,>3.1
+  Downloading matplotlib-3.7.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (11.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.6/11.6 MB 15.8 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of lightning-utilities to determine which version is compatible with other requirements. This could take a while.
+Collecting lightning-utilities<2.0,>=0.7.0
+  Downloading lightning_utilities-0.8.0-py3-none-any.whl (20 kB)
+INFO: pip is looking at multiple versions of lightning-fabric to determine which version is compatible with other requirements. This could take a while.
+Collecting lightning-fabric>=1.9.0
+  Downloading lightning_fabric-2.0.2-py3-none-any.whl (177 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 177.5/177.5 kB 14.2 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of lightning-cloud to determine which version is compatible with other requirements. This could take a while.
+Collecting lightning-cloud>=0.5.34
+  Downloading lightning_cloud-0.5.35-py3-none-any.whl (562 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 562.3/562.3 kB 13.4 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of lightning-api-access to determine which version is compatible with other requirements. This could take a while.
+Collecting lightning-api-access>=0.0.3
+  Downloading lightning_api_access-0.0.4-py3-none-any.whl (888 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 888.8/888.8 kB 14.5 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of jsonargparse[signatures] to determine which version is compatible with other requirements. This could take a while.
+Collecting jsonargparse[signatures]<5.0,>=4.18.0
+  Downloading jsonargparse-4.21.1-py3-none-any.whl (191 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 191.4/191.4 kB 10.5 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of jinja2 to determine which version is compatible with other requirements. This could take a while.
+Collecting Jinja2<5.0
+  Downloading Jinja2-3.1.2-py3-none-any.whl (133 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 133.1/133.1 kB 8.6 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of inquirer to determine which version is compatible with other requirements. This could take a while.
+Collecting inquirer<5.0,>=2.10.0
+  Downloading inquirer-3.1.2-py3-none-any.whl (17 kB)
+INFO: pip is looking at multiple versions of antlr4-python3-runtime to determine which version is compatible with other requirements. This could take a while.
+Collecting antlr4-python3-runtime==4.9.*
+  Downloading antlr4-python3-runtime-4.9.3.tar.gz (117 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 117.0/117.0 kB 10.0 MB/s eta 0:00:00
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+  Downloading antlr4-python3-runtime-4.9.2.tar.gz (117 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 117.2/117.2 kB 8.6 MB/s eta 0:00:00
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+  Downloading antlr4-python3-runtime-4.9.1.tar.gz (173 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 173.3/173.3 kB 8.1 MB/s eta 0:00:00
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+  Downloading antlr4-python3-runtime-4.9.tar.gz (114 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 114.2/114.2 kB 9.1 MB/s eta 0:00:00
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+INFO: pip is looking at multiple versions of hydra-core to determine which version is compatible with other requirements. This could take a while.
+Collecting hydra-core<2.0,>=1.0.5
+  Downloading hydra_core-1.3.2-py3-none-any.whl (154 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 154.5/154.5 kB 13.1 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of fsspec[http] to determine which version is compatible with other requirements. This could take a while.
+Collecting fsspec[http]<2025.0,>2021.06.0
+  Downloading fsspec-2023.6.0-py3-none-any.whl (163 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 163.8/163.8 kB 8.6 MB/s eta 0:00:00
+INFO: pip is looking at multiple versions of fsspec to determine which version is compatible with other requirements. This could take a while.
+  Downloading fsspec-2023.5.0-py3-none-any.whl (160 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 160.1/160.1 kB 12.7 MB/s eta 0:00:00
+  Downloading fsspec-2023.4.0-py3-none-any.whl (153 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 154.0/154.0 kB 9.5 MB/s eta 0:00:00
+  Downloading fsspec-2023.3.0-py3-none-any.whl (145 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 145.4/145.4 kB 6.0 MB/s eta 0:00:00
+  Downloading fsspec-2023.1.0-py3-none-any.whl (143 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 143.0/143.0 kB 8.1 MB/s eta 0:00:00
+  Downloading fsspec-2022.11.0-py3-none-any.whl (139 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 139.5/139.5 kB 10.7 MB/s eta 0:00:00
+Requirement already satisfied: itsdangerous<3.0.0,>=2.0.1 in /usr/local/lib/python3.10/site-packages (from starsessions<2.0,>=1.2.1->lightning[extra]) (2.1.2)
+Collecting altair<6,>=4.0
+  Downloading altair-5.0.1-py3-none-any.whl (471 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 471.5/471.5 kB 11.7 MB/s eta 0:00:00
+Requirement already satisfied: blinker<2,>=1.0.0 in /usr/local/lib/python3.10/site-packages (from streamlit<2.0,>=1.13.0->lightning[extra]) (1.6.2)
+Requirement already satisfied: pyarrow>=4.0 in /usr/local/lib/python3.10/site-packages (from streamlit<2.0,>=1.13.0->lightning[extra]) (12.0.0)
+Collecting watchdog
+  Downloading watchdog-3.0.0-py3-none-manylinux2014_x86_64.whl (82 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 82.1/82.1 kB 6.8 MB/s eta 0:00:00
+Collecting validators<1,>=0.2
+  Downloading validators-0.20.0.tar.gz (30 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting toml<2
+  Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+Requirement already satisfied: importlib-metadata<7,>=1.4 in /usr/local/lib/python3.10/site-packages (from streamlit<2.0,>=1.13.0->lightning[extra]) (6.6.0)
+Collecting tzlocal<5,>=1.1
+  Downloading tzlocal-4.3-py3-none-any.whl (20 kB)
+Collecting tornado<7,>=6.0.3
+  Downloading tornado-6.3.2-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (426 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 426.9/426.9 kB 12.9 MB/s eta 0:00:00
+Requirement already satisfied: pandas<3,>=0.25 in /usr/local/lib/python3.10/site-packages (from streamlit<2.0,>=1.13.0->lightning[extra]) (2.0.2)
+Requirement already satisfied: gitpython!=3.1.19,<4,>=3 in /usr/local/lib/python3.10/site-packages (from streamlit<2.0,>=1.13.0->lightning[extra]) (3.1.31)
+Collecting tenacity<9,>=8.0.0
+  Downloading tenacity-8.2.2-py3-none-any.whl (24 kB)
+Requirement already satisfied: protobuf<5,>=3.20 in /usr/local/lib/python3.10/site-packages (from streamlit<2.0,>=1.13.0->lightning[extra]) (4.23.2)
+Collecting cachetools<6,>=4.0
+  Downloading cachetools-5.3.1-py3-none-any.whl (9.3 kB)
+Collecting pydeck<1,>=0.1.dev5
+  Downloading pydeck-0.8.1b0-py2.py3-none-any.whl (4.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.8/4.8 MB 14.6 MB/s eta 0:00:00
+Collecting pympler<2,>=0.9
+  Downloading Pympler-1.0.1-py3-none-any.whl (164 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 164.8/164.8 kB 10.7 MB/s eta 0:00:00
+Collecting protobuf<5,>=3.20
+  Downloading protobuf-3.20.3-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl (1.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 15.3 MB/s eta 0:00:00
+Requirement already satisfied: filelock in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (3.12.1)
+Requirement already satisfied: nvidia-cuda-nvrtc-cu11==11.7.99 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (11.7.99)
+Requirement already satisfied: sympy in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (1.12)
+Requirement already satisfied: nvidia-cublas-cu11==11.10.3.66 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (11.10.3.66)
+Requirement already satisfied: nvidia-cudnn-cu11==8.5.0.96 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (8.5.0.96)
+Requirement already satisfied: nvidia-cusparse-cu11==11.7.4.91 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (11.7.4.91)
+Requirement already satisfied: nvidia-cuda-runtime-cu11==11.7.99 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (11.7.99)
+Requirement already satisfied: nvidia-curand-cu11==10.2.10.91 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (10.2.10.91)
+Requirement already satisfied: nvidia-nccl-cu11==2.14.3 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (2.14.3)
+Requirement already satisfied: triton==2.0.0 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (2.0.0)
+Requirement already satisfied: nvidia-nvtx-cu11==11.7.91 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (11.7.91)
+Requirement already satisfied: nvidia-cusolver-cu11==11.4.0.1 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (11.4.0.1)
+Requirement already satisfied: nvidia-cuda-cupti-cu11==11.7.101 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (11.7.101)
+Requirement already satisfied: nvidia-cufft-cu11==10.9.0.58 in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (10.9.0.58)
+Requirement already satisfied: networkx in /usr/local/lib/python3.10/site-packages (from torch<4.0,>=1.11.0->lightning[extra]) (3.1)
+Requirement already satisfied: wheel in /usr/local/lib/python3.10/site-packages (from nvidia-cublas-cu11==11.10.3.66->torch<4.0,>=1.11.0->lightning[extra]) (0.40.0)
+Requirement already satisfied: cmake in /usr/local/lib/python3.10/site-packages (from triton==2.0.0->torch<4.0,>=1.11.0->lightning[extra]) (3.26.4)
+Requirement already satisfied: lit in /usr/local/lib/python3.10/site-packages (from triton==2.0.0->torch<4.0,>=1.11.0->lightning[extra]) (16.0.5.post0)
+Collecting h11>=0.8
+  Downloading h11-0.14.0-py3-none-any.whl (58 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.3/58.3 kB 5.1 MB/s eta 0:00:00

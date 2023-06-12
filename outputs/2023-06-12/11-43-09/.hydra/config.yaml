@@ -1,0 +1,44 @@
+task_name: train
+train: true
+test: false
+compile: false
+ckpt_path: null
+seed: null
+data:
+  _target_: uranium.data.cifar10_datamodule.CIFAR10DataModule
+  data_dir: ${paths.data_dir}
+  batch_size: 128
+  train_val_test_split:
+  - 45000
+  - 5000
+  - 10000
+  num_workers: 0
+  pin_memory: false
+model:
+  _target_: uranium.models.cifar10_module.CIFAR10LitModule
+  optimizer:
+    _target_: torch.optim.Adam
+    _partial_: true
+    lr: 0.001
+    weight_decay: 0.0
+  net:
+    _target_: timm.create_model
+    model_name: resnet18
+    in_chans: 3
+    pretrained: true
+    num_classes: 10
+paths:
+  root_dir: .
+  data_dir: ${paths.root_dir}/data/
+  log_dir: ${paths.root_dir}/logs/
+  output_dir: ${hydra:runtime.output_dir}
+  work_dir: ${hydra:runtime.cwd}
+trainer:
+  _target_: lightning.pytorch.trainer.Trainer
+  default_root_dir: ${paths.output_dir}
+  min_epochs: 1
+  max_epochs: 2
+  accelerator: cpu
+  devices: 1
+  check_val_every_n_epoch: 1
+  deterministic: false
