@@ -147,6 +147,7 @@ dmypy.json
 # Lightning-Hydra-Template
 configs/local/default.yaml
 data/
+outputs/
 logs/
 .env
 .autoenv
@@ -155,6 +156,7 @@ input.jpg
 imagenet_1k.json
 /logs
 /data
+/outputs
 /flagged
 imagenet_classes.txt
 model_store/
