@@ -34,8 +34,7 @@ from typing import List, Tuple
 
 import hydra
 from omegaconf import DictConfig
-import pytorch_lightning as pl
-from pytorch_lightning import LightningDataModule, LightningModule, Trainer
+import lightning.pytorch as L
 
 from uranium import utils
 
@@ -60,9 +59,9 @@ def evaluate(cfg: DictConfig) -> Tuple[dict, dict]:
 
     # set seed for random number generators in pytorch, numpy and python.random
     if cfg.get("seed"):
-        pl.seed_everything(cfg.seed, workers=True)
+        L.seed_everything(cfg.seed, workers=True)
 
-    log.info(f"Instantiating datamodule <{cfg.data._target_}>")
+    log.info(f"Instantiating datamodule <{cfg.datamodule._target_}>")
     datamodule: LightningDataModule = hydra.utils.instantiate(cfg.datamodule)
 
     log.info(f"Instantiating model <{cfg.model._target_}>")
@@ -80,7 +79,8 @@ def evaluate(cfg: DictConfig) -> Tuple[dict, dict]:
 
 
     log.info("Starting testing!")
-    trainer.test(model=model, datamodule=datamodule, ckpt_path=cfg.ckpt_path)
+    saved_ckpt_path = cfg.get('paths', {}).get('ckpt_save_path')
+    trainer.test(model=model, datamodule=datamodule, ckpt_path=saved_ckpt_path)
 
     # for predictions use trainer.predict(...)
     # predictions = trainer.predict(model=model, dataloaders=dataloaders, ckpt_path=cfg.ckpt_path)
@@ -90,7 +90,7 @@ def evaluate(cfg: DictConfig) -> Tuple[dict, dict]:
     return metric_dict, object_dict
 
 
-@hydra.main(version_base="1.3", config_path=root / "configs", config_name="eval.yaml")
+@hydra.main(version_base="1.3", config_path="../configs", config_name="eval.yaml")
 def main(cfg: DictConfig) -> None:
     evaluate(cfg)
 

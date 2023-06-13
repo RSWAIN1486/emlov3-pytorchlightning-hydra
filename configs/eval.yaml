@@ -23,7 +23,8 @@ test: True
 compile: False
 
 # simply provide checkpoint path to resume training
-ckpt_path: ${paths.work_dir}
+# ckpt_path: null
+ckpt_path: ${paths.root_dir}/ckpt/epoch1.ckpt
 
 # seed for random number generators in pytorch, numpy and python.random
 seed: null

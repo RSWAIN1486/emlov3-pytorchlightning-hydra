@@ -31,10 +31,9 @@ root = pyrootutils.setup_root(
 # ------------------------------------------------------------------------------------ #
 from typing import Tuple, Dict
 
-import pytorch_lightning as L
+import lightning.pytorch as L
 import hydra
 from omegaconf import DictConfig
-from pytorch_lightning import LightningDataModule, LightningModule, Trainer
 
 from uranium import utils
 
@@ -47,7 +46,7 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
     if cfg.get("seed"):
         L.seed_everything(cfg.seed, workers=True)
 
-    log.info(f"Instantiating datamodule <{cfg.data._target_}>")
+    log.info(f"Instantiating datamodule <{cfg.datamodule._target_}>")
     datamodule: LightningDataModule = hydra.utils.instantiate(cfg.datamodule)
 
     log.info(f"Instantiating model <{cfg.model._target_}>")
@@ -63,13 +62,17 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
         "trainer": trainer,
     }
 
-    # print(cfg.get("ckpt_path"))
-    # print(cfg['paths']['data_dir'])
-
     if cfg.get("train"):
         log.info("Starting training!")
-        trainer.fit(model=model, datamodule=datamodule,
-                    ckpt_path=cfg.get("ckpt_path"))
+        
+        ckpt_save_path = cfg.get('paths', {}).get('ckpt_save_path')
+        # checkpoint = ModelCheckpoint(dirpath=ckpt_save_path)
+
+        trainer.fit(model=model, datamodule=datamodule,#callbacks=[checkpoint],
+                    ckpt_path=cfg.get("ckpt_path"),
+                    )
+        
+        trainer.save_checkpoint(ckpt_save_path)
 
     train_metrics = trainer.callback_metrics
 

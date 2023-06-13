@@ -6,7 +6,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 # from fairscale.nn import auto_wrap, checkpoint_wrapper, wrap
-# from pytorch_lightning import LightningModule
 from lightning.pytorch import LightningModule
 from torchmetrics import MaxMetric, MeanMetric
 from torchmetrics.classification.accuracy import Accuracy
@@ -170,7 +169,7 @@ class CIFAR10LitModule(LightningModule):
 
         return {"loss": loss, "preds": preds, "targets": targets}
 
-    def test_epoch_end(self, outputs: List[Any]):
+    def on_test_epoch_end(self):
         pass
 
     def configure_optimizers(self):

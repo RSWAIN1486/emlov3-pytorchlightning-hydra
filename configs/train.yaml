@@ -24,7 +24,6 @@ compile: False
 
 # simply provide checkpoint path to resume training
 ckpt_path: null
-# ckpt_path: ${paths.output_dir}
 
 # seed for random number generators in pytorch, numpy and python.random
 seed: null

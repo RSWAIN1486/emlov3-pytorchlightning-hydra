@@ -148,6 +148,7 @@ dmypy.json
 configs/local/default.yaml
 data/
 outputs/
+ckpt/
 logs/
 .env
 .autoenv
@@ -156,6 +157,7 @@ input.jpg
 imagenet_1k.json
 /logs
 /data
+/ckpt
 /outputs
 /flagged
 imagenet_classes.txt
