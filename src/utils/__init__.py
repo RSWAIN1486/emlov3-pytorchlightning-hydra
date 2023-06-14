@@ -1,6 +1,6 @@
-from uranium.utils.pylogger import get_pylogger
-from uranium.utils.rich_utils import enforce_tags, print_config_tree
-from uranium.utils.utils import (
+from src.utils.pylogger import get_pylogger
+from src.utils.rich_utils import enforce_tags, print_config_tree
+from src.utils.utils import (
     close_loggers,
     extras,
     get_metric_value,

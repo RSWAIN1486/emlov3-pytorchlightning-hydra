@@ -36,7 +36,7 @@ import hydra
 from omegaconf import DictConfig
 import lightning.pytorch as L
 
-from uranium import utils
+from src import utils
 
 log = utils.get_pylogger(__name__)
 

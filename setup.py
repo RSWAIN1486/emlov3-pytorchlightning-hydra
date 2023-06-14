@@ -3,7 +3,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="uranium",
+    name="src",
     version="0.0.1",
     description="PyTorch Lightning Project Setup using Hydra with TIMM template.",
     author="",
@@ -14,8 +14,8 @@ setup(
     # use this to customize global commands available in the terminal after installing the package
     entry_points={
         "console_scripts": [
-            "uranium_train = uranium.train:main",
-            "uranium_eval = uranium.eval:main",
+            "src_train = src.train:main",
+            "src_eval = src.eval:main",
         ]
     },
 )

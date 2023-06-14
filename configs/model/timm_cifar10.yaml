@@ -1,4 +1,4 @@
-_target_: uranium.models.cifar10_module.CIFAR10LitModule
+_target_: src.models.cifar10_module.CIFAR10LitModule
 
 optimizer:
   _target_: torch.optim.Adam

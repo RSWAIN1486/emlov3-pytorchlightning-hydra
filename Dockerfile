@@ -8,4 +8,4 @@ RUN pip3 install -r requirements.txt && rm -rf /root/.cache/pip
 
 COPY . .
 
-CMD [ "python3", "uranium/train.py" ]
+CMD [ "python3", "src/train.py" ]
