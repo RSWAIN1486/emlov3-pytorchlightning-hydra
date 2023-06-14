@@ -2,7 +2,7 @@ ______________________________________________________________________
 
 <div align="center">
 
-# Your Project Name
+# Lightning-Hydra-Timm-Cifar10
 
 <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a>
 <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/-Lightning-792ee5?logo=pytorchlightning&logoColor=white"></a>
@@ -15,16 +15,18 @@ ______________________________________________________________________
 
 ## Description
 
-What it does
+Run training and evaluation on Cifar10 using TIMM models with Pytorch lightning & Hydra.
 
-## Installation
+## How to run on local
+
+### Installation
 
 #### Pip
 
 ```bash
 # clone project
-git clone https://github.com/YourGithubName/your-repo-name
-cd your-repo-name
+git clone https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra.git
+cd emlov3-pytorchlightning-hydra
 
 # [OPTIONAL] create conda environment
 conda create -n myenv python=3.9
@@ -37,40 +39,30 @@ conda activate myenv
 pip install -r requirements.txt
 ```
 
-#### Conda
 
-```bash
-# clone project
-git clone https://github.com/YourGithubName/your-repo-name
-cd your-repo-name
-
-# create conda environment and install dependencies
-conda env create -f environment.yaml -n myenv
-
-# activate conda environment
-conda activate myenv
-```
-
-## How to run
-
-Train model with default configuration
+Train model with default/cpu configuration
 
 ```bash
 # train on CPU
 python src/train.py trainer=cpu
+python src/eval.py
 
-# train on GPU
-python src/train.py trainer=gpu
-```
-
-Train model with chosen experiment configuration from [configs/experiment/](configs/experiment/)
-
-```bash
-python src/train.py experiment=experiment_name.yaml
-```
-
-You can override any parameter from command line like this
-
-```bash
+# You can override any parameter from command line like this
 python src/train.py trainer.max_epochs=20 data.batch_size=64
 ```
+
+
+## How to run using Docker
+
+```bash
+# Build Docker on local
+docker build -t emlov3-pytorchlightning-hydra .
+# or pull from Docker hub
+docker pull rswain1486/emlov3-pytorchlightning-hydra:latest
+
+# Since checkpoint will not be persisted between container runs if train and eval are run separately, use below command to run together. 
+# Using volume is another option which will be added later.
+docker run rswain1486/emlov3-pytorchlightning-hydra sh -c "python3 src/train.py && python3 src/eval.py"
+
+```
+
