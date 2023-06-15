@@ -61,8 +61,10 @@ docker build -t emlov3-pytorchlightning-hydra .
 docker pull rswain1486/emlov3-pytorchlightning-hydra:latest
 
 # Since checkpoint will not be persisted between container runs if train and eval are run separately, use below command to run together. 
-# Using volume is another option which will be added later.
 docker run rswain1486/emlov3-pytorchlightning-hydra sh -c "python3 src/train.py && python3 src/eval.py"
 
+# Using volume you can mount checkpoint to host directory and run train and eval separately.
+docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlightning-hydra python src/train.py
+docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlightning-hydra python src/eval.py
 ```
 

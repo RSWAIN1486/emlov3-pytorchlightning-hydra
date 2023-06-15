@@ -1,0 +1,10 @@
+.git
+.gitignore
+.vscode
+dockerMount
+data/*
+ckpt/*
+outputs/*
+eval.log
+train.log
+model_store
