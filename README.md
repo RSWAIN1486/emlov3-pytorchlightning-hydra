@@ -68,3 +68,12 @@ docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlight
 docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlightning-hydra python src/eval.py
 ```
 
+## Note
+1. The train, val and test batches have been limited to 1 in default.yaml under /configs/trainer to limit execution time. 
+2. Post evaluation, you should see test metrics as below :
+
+<div align="center">
+  
+<img width="316" alt="image" src="https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/e30daa20-9f61-4712-bdeb-fdf75d140703">
+
+</div>
