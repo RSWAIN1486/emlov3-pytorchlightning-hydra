@@ -19,6 +19,11 @@ hydra-core==1.3.2
 hydra-colorlog==1.2.0
 hydra-optuna-sweeper==1.2.0
 
+# --------- dvc --------- #
+dvc
+dvc-gdrive
+einops
+
 # --------- loggers --------- #
 # wandb
 # neptune-client

@@ -1,4 +1,5 @@
-from lightning import LightningDataModule
+# from lightning import LightningDataModule
+from lightning.pytorch import LightningDataModule
 from lightning.pytorch.utilities.types import TRAIN_DATALOADERS
 from torchvision.datasets import DatasetFolder, ImageFolder
 from torchvision.datasets.vision import StandardTransform
