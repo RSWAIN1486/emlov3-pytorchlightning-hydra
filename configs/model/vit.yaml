@@ -1,6 +1,12 @@
 _target_: src.models.vit_module.VitLitModule
 
+in_channels: 3
+patch_size: 4
+emb_size: 64
+img_size: 224
+depth: 6
 num_classes: 1000
+
 
 optimizer:
   _target_: torch.optim.Adam

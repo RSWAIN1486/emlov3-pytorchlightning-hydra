@@ -1,0 +1,15 @@
+# @package _global_
+
+# to execute this experiment run:
+# python infer.py experiment=cat_dog_infer
+
+defaults:
+  - override /model: vit.yaml
+  - override /paths: default.yaml
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+model:
+  num_classes: 2
+  img_size: 32

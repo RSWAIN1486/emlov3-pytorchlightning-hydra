@@ -15,11 +15,12 @@ seed: 12345
 
 trainer:
   min_epochs: 0
-  max_epochs: 1
+  max_epochs: 5
   gradient_clip_val: 0.5
 
 model:
   num_classes: 2
+  img_size: 32
 
 data:
   train_dataset:
