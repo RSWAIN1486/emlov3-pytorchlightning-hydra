@@ -8,6 +8,7 @@ defaults:
   - model: timm_cifar10.yaml
   - paths: default.yaml
   - trainer: default.yaml
+  - logger: null
 
   # experiment configs allow for version control of specific hyperparameters
   # e.g. best hyperparameters for given model and datamodule
