@@ -6,7 +6,7 @@ from lightning.pytorch import LightningDataModule
 from torch.utils.data import ConcatDataset, DataLoader, Dataset, random_split
 from torchvision.datasets import CIFAR10
 from torchvision.transforms import transforms
-from joblib.externals.loky.backend.context import get_context
+# from joblib.externals.loky.backend.context import get_context
 
 class CIFAR10DataModule(LightningDataModule):
     """Example of LightningDataModule for MNIST dataset.
@@ -42,6 +42,7 @@ class CIFAR10DataModule(LightningDataModule):
         train_val_test_split: Tuple[int, int, int] = (45_000, 5_000, 10_000),
         batch_size: int = 64,
         num_workers: int = 0,
+        img_size: int = 224,
         pin_memory: bool = False,
     ):
         super().__init__()
@@ -53,7 +54,7 @@ class CIFAR10DataModule(LightningDataModule):
         # data transformations
         self.transforms = transforms.Compose(
             [
-                transforms.Resize(224),
+                transforms.Resize(self.hparams.img_size),
                 transforms.ToTensor(),
                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
             ]
@@ -99,7 +100,7 @@ class CIFAR10DataModule(LightningDataModule):
             num_workers=self.hparams.num_workers,
             pin_memory=self.hparams.pin_memory,
             shuffle=True,
-            multiprocessing_context=get_context('loky'),
+            # multiprocessing_context='fork',
         )
 
     def val_dataloader(self):
@@ -109,7 +110,7 @@ class CIFAR10DataModule(LightningDataModule):
             num_workers=self.hparams.num_workers,
             pin_memory=self.hparams.pin_memory,
             shuffle=False,
-            multiprocessing_context=get_context('loky'),
+            # multiprocessing_context='fork',
         )
 
     def test_dataloader(self):
@@ -119,7 +120,7 @@ class CIFAR10DataModule(LightningDataModule):
             num_workers=self.hparams.num_workers,
             pin_memory=self.hparams.pin_memory,
             shuffle=False,
-            multiprocessing_context=get_context('loky'),
+            # multiprocessing_context='fork',
         )
 
     def teardown(self, stage: Optional[str] = None):

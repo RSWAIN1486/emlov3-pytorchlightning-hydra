@@ -22,12 +22,20 @@ seed: 12345
 
 trainer:
   min_epochs: 0
-  max_epochs: 5
+  max_epochs: 1
 
 datamodule:
   num_workers: 0
-  batch_size: 128
+  batch_size: 32
+  img_size: 32
   
+
+model:
+  img_size: 32
+  num_classes: 10
+  emb_size: 16
+  depth: 3
+
 compile: False
 
 logger:
