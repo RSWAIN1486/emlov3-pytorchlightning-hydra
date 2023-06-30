@@ -4,29 +4,33 @@
 # python train.py experiment=cat_dog
 
 defaults:
-  - override /datamodule: image_folder.yaml
+  - override /datamodule: cifar10.yaml
   - override /model: vit.yaml
   - override /trainer: default.yaml
+  - override /logger: many_loggers.yaml
+  # - override /callbacks: default.yaml
 
 # all parameters below will be merged with parameters from default configurations set above
 # this allows you to overwrite only specified parameters
+
+experiment_name: "cifar10 patch size check"
+
+tags:
+  cifar: "patch_size_exp"
 
 seed: 12345
 
 trainer:
   min_epochs: 0
   max_epochs: 5
-  gradient_clip_val: 0.5
-
-model:
-  num_classes: 2
-  img_size: 32
 
 datamodule:
-  train_dataset:
-    root: ${paths.data_dir}/PetImages_split/train
-  test_dataset:
-    root: ${paths.data_dir}/PetImages_split/test
-  image_size: 32
-
+  num_workers: 0
+  batch_size: 128
+  
 compile: False
+
+logger:
+  mlflow:
+    tags: ${tags}
+    experiment_name: ${experiment_name}

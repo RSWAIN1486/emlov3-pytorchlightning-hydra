@@ -10,3 +10,4 @@ mlflow:
   prefix: ""
   artifact_location: null
   # run_id: ""
+  log_model: "all"
