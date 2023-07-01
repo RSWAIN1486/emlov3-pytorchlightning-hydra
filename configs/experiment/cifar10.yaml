@@ -8,7 +8,7 @@ defaults:
   - override /model: vit.yaml
   - override /trainer: default.yaml
   - override /logger: many_loggers.yaml
-  # - override /callbacks: default.yaml
+  - override /callbacks: default.yaml
 
 # all parameters below will be merged with parameters from default configurations set above
 # this allows you to overwrite only specified parameters
@@ -22,19 +22,19 @@ seed: 12345
 
 trainer:
   min_epochs: 0
-  max_epochs: 1
+  max_epochs: 5
 
 datamodule:
   num_workers: 0
-  batch_size: 32
+  batch_size: 16
   img_size: 32
   
 
 model:
   img_size: 32
   num_classes: 10
-  emb_size: 16
-  depth: 3
+  emb_size: 8
+  depth: 2
 
 compile: False
 
