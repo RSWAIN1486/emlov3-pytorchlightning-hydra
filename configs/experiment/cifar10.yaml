@@ -13,7 +13,7 @@ defaults:
 # all parameters below will be merged with parameters from default configurations set above
 # this allows you to overwrite only specified parameters
 
-experiment_name: "cifar10 patch size check"
+experiment_name: "vit-cifar10 patch size experiment"
 
 tags:
   cifar: "patch_size_exp"
@@ -22,7 +22,7 @@ seed: 12345
 
 trainer:
   min_epochs: 0
-  max_epochs: 5
+  max_epochs: 1
 
 datamodule:
   num_workers: 0

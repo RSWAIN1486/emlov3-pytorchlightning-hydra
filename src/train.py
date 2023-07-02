@@ -100,16 +100,23 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
         log.info(f"Best ckpt path: {ckpt_path}")
 
 
-        for logger_ in logger:
-            if isinstance(logger_, MLFlowLogger):
+    for logger_ in logger:
+        if isinstance(logger_, MLFlowLogger):
+            log.info(f"Started Logging best model")
+            ckpt_path = trainer.checkpoint_callback.best_model_path
+            if ckpt_path == "":
+                log.warning(
+                    "Best ckpt not found! Logging current model...")
+            else:
                 ckpt = torch.load(ckpt_path)
                 model.load_state_dict(ckpt["state_dict"])
-                os.environ['MLFLOW_RUN_ID'] = logger_.run_id
-                os.environ['MLFLOW_EXPERIMENT_ID'] = logger_.experiment_id
-                os.environ['MLFLOW_EXPERIMENT_NAME'] = logger_._experiment_name
-                os.environ['MLFLOW_TRACKING_URI'] = logger_._tracking_uri
-                mlflow.pytorch.log_model(model, "model")
-                break
+            os.environ['MLFLOW_RUN_ID'] = logger_.run_id
+            os.environ['MLFLOW_EXPERIMENT_ID'] = logger_.experiment_id
+            os.environ['MLFLOW_EXPERIMENT_NAME'] = logger_._experiment_name
+            os.environ['MLFLOW_TRACKING_URI'] = logger_._tracking_uri
+            
+            mlflow.pytorch.log_model(model, "model")
+            break
     test_metrics = trainer.callback_metrics
 
     # merge train and test metrics

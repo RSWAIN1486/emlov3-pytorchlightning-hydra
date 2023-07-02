@@ -1,7 +1,9 @@
 [core]
     autostage = true
-    remote = local
+    remote = gdrive_multiexp
 ['remote "gdrive"']
     url = gdrive://1W9wu4eopNyiI3ZiNe0mTvwDXT8v0lx3C
 ['remote "local"']
     url = ../../dvc-data
+['remote "gdrive_multiexp"']
+    url = gdrive://1WcXEK-HjdaQ-xZp6NOnSUqprPGhijFeE
