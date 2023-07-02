@@ -123,7 +123,7 @@ python src/infer.py experiment=cat_dog_infer test_path=./data/PetImages_split/te
 
 </div>
 
-## How to train using hydra multirun with joblib launcher (dataset cifar10, model Vit)
+## How to train using hydra multirun with joblib launcher (dataset cifar10, model Vit, patch size 1,2,4,8,16)
 ```bash
 # Build Docker on local
 docker build -t lightning-hydra-multiexperiments .
