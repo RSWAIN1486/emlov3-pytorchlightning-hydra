@@ -22,7 +22,7 @@ model:
   num_classes: 2
   img_size: 32
 
-data:
+datamodule:
   train_dataset:
     root: ${paths.data_dir}/PetImages_split/train
   test_dataset:

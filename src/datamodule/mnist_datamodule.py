@@ -1,18 +1,16 @@
 from typing import Any, Dict, Optional, Tuple
 
 import torch
-# from pytorch_lightning import LightningDataModule
-from lightning.pytorch import LightningDataModule
+from lightning import LightningDataModule
 from torch.utils.data import ConcatDataset, DataLoader, Dataset, random_split
-from torchvision.datasets import CIFAR10
+from torchvision.datasets import MNIST
 from torchvision.transforms import transforms
-# from joblib.externals.loky.backend.context import get_context
 
-class CIFAR10DataModule(LightningDataModule):
+
+class MNISTDataModule(LightningDataModule):
     """Example of LightningDataModule for MNIST dataset.
 
-    A DataModule implements 5 key methods:
-
+    A DataModule implements 6 key methods:
         def prepare_data(self):
             # things to do on 1 GPU/TPU (not on every GPU/TPU in DDP)
             # download data, pre-process, split, save to disk, etc...
@@ -33,16 +31,15 @@ class CIFAR10DataModule(LightningDataModule):
     split, transform and process the data.
 
     Read the docs:
-        https://pytorch-lightning.readthedocs.io/en/latest/extensions/datamodules.html
+        https://lightning.ai/docs/pytorch/latest/data/datamodule.html
     """
 
     def __init__(
         self,
         data_dir: str = "data/",
-        train_val_test_split: Tuple[int, int, int] = (45_000, 5_000, 10_000),
+        train_val_test_split: Tuple[int, int, int] = (55_000, 5_000, 10_000),
         batch_size: int = 64,
         num_workers: int = 0,
-        img_size: int = 224,
         pin_memory: bool = False,
     ):
         super().__init__()
@@ -53,11 +50,7 @@ class CIFAR10DataModule(LightningDataModule):
 
         # data transformations
         self.transforms = transforms.Compose(
-            [
-                transforms.Resize(self.hparams.img_size),
-                transforms.ToTensor(),
-                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-            ]
+            [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
         )
 
         self.data_train: Optional[Dataset] = None
@@ -73,8 +66,8 @@ class CIFAR10DataModule(LightningDataModule):
 
         Do not use it to assign state (self.x = y).
         """
-        CIFAR10(self.hparams.data_dir, train=True, download=True)
-        CIFAR10(self.hparams.data_dir, train=False, download=True)
+        MNIST(self.hparams.data_dir, train=True, download=True)
+        MNIST(self.hparams.data_dir, train=False, download=True)
 
     def setup(self, stage: Optional[str] = None):
         """Load data. Set variables: `self.data_train`, `self.data_val`, `self.data_test`.
@@ -84,8 +77,10 @@ class CIFAR10DataModule(LightningDataModule):
         """
         # load and split datasets only if not loaded already
         if not self.data_train and not self.data_val and not self.data_test:
-            trainset = CIFAR10(self.hparams.data_dir, train=True, transform=self.transforms)
-            testset = CIFAR10(self.hparams.data_dir, train=False, transform=self.transforms)
+            trainset = MNIST(self.hparams.data_dir, train=True,
+                             transform=self.transforms)
+            testset = MNIST(self.hparams.data_dir, train=False,
+                            transform=self.transforms)
             dataset = ConcatDataset(datasets=[trainset, testset])
             self.data_train, self.data_val, self.data_test = random_split(
                 dataset=dataset,
@@ -100,7 +95,6 @@ class CIFAR10DataModule(LightningDataModule):
             num_workers=self.hparams.num_workers,
             pin_memory=self.hparams.pin_memory,
             shuffle=True,
-            # multiprocessing_context='fork',
         )
 
     def val_dataloader(self):
@@ -110,7 +104,6 @@ class CIFAR10DataModule(LightningDataModule):
             num_workers=self.hparams.num_workers,
             pin_memory=self.hparams.pin_memory,
             shuffle=False,
-            # multiprocessing_context='fork',
         )
 
     def test_dataloader(self):
@@ -120,7 +113,6 @@ class CIFAR10DataModule(LightningDataModule):
             num_workers=self.hparams.num_workers,
             pin_memory=self.hparams.pin_memory,
             shuffle=False,
-            # multiprocessing_context='fork',
         )
 
     def teardown(self, stage: Optional[str] = None):
@@ -137,12 +129,4 @@ class CIFAR10DataModule(LightningDataModule):
 
 
 if __name__ == "__main__":
-    import hydra
-    import omegaconf
-    import pyrootutils
-
-    root = pyrootutils.setup_root(__file__, pythonpath=True)
-    cfg = omegaconf.OmegaConf.load(root / "configs" / "datamodule" / "cifar10.yaml")
-    cfg.data_dir = str(root / "data")
-    _ = hydra.utils.instantiate(cfg)
-    
+    _ = MNISTDataModule()

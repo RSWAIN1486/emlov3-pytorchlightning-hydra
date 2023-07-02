@@ -17,7 +17,8 @@ ______________________________________________________________________
 
 - Run training and evaluation on Cifar10 using TIMM models with Pytorch lightning & Hydra.
 - Track your data and models using dvc
-- Run training and inference on Kaggle's cats and dogs dataset using Vit Transformer model. 
+- Run training and inference on Kaggle's cats and dogs dataset using Vit Transformer model.
+- Use hydra multirun using joblib to train vit model on cifar10 dataset for multiple patch size using docker and view mlflow logger UI during runtime.
 
 ## How to run on local
 
@@ -72,10 +73,10 @@ docker run rswain1486/emlov3-pytorchlightning-hydra sh -c "python3 src/train.py 
 docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlightning-hydra python src/train.py
 docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlightning-hydra python src/eval.py
 
-# Post evaluation, you should see test metrics as below :
-```
 
-<div align="center">
+```
+##### Post evaluation, you should see test metrics as below :
+<div align="left">
   
 <img width="316" alt="image" src="https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/e30daa20-9f61-4712-bdeb-fdf75d140703">
 
@@ -87,6 +88,9 @@ docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlight
 ```bash
 # Track and update your data by creating or updating data.dvc file.
 dvc add data
+
+# To push to google drive, create folder under gdrive and add the remote to local using folder id.
+dvc remote add --default gdrive gdrive://1WcXEK-HjdaQ-xZp6NOnSUqprPGhijFeE
 
 # Push latest data to dvc source - google drive using
 dvc push -r gdrive
@@ -111,11 +115,67 @@ src_infer experiment=cat_dog_infer test_path=./data/PetImages_split/test/Cat/18.
 # If installed using requirements.txt, use
 python src/infer.py experiment=cat_dog_infer test_path=./data/PetImages_split/test/Cat/18.jpg
 
-# Predictions for Top k classes (here 2) should show as below
 ```
-
-<div align="center">
+##### Predictions for Top k classes (here 2) should show as below
+<div align="left">
   
 ![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/8cf73be0-0fcf-4b66-9c1a-099d2c32fd05)
 
 </div>
+
+## How to train using hydra multirun with joblib launcher (dataset cifar10, model Vit)
+```bash
+# Build Docker on local
+docker build -t lightning-hydra-multiexperiments .
+# or pull from Docker hub
+docker pull rswain1486/lightning-hydra-experimenttracking:latest
+
+# Run below command to start the patch size experiment using hydra joblib launcher.
+# NOTE: Make sure to add port mapping from container to host if you would like to view MLflow Logger UI during runtime
+# NOTE: Make sure to add volume mapping of local host directory to container workspace directory to save logs, models on local for dvc tracking.
+docker run -it --expose 5000 -p 5000:5000 -v ${pwd}:/workspace --name mlflow-container lightning-hydra-experimenttracking:latest src_train -m hydra/launcher=joblib hydra.launcher.n_jobs=5 experiment=cifar10 model.patch_size=1,2,4,8,16 datamodule.num_workers=0
+
+# Run below command to start MLFlow Logger server inside the container and open http://localhost:5000 on your browser
+docker exec -it -w /workspace/logs/mlflow mlflow-container mlflow ui --host 0.0.0.0
+
+# Post the container is exited, you can start MLFlow Logger server using and open http://localhost:5000 on your browser
+cd ./logs/mlflow
+mlflow ui
+
+# Add dvc tracking to data, logs and models. (Models are saved under logs for mlflow)
+dvc add data
+dvc add logs
+dvc config core.autostage true
+
+git add data.dvc
+git add logs.dvc
+
+# To push to google drive, refer to the section - How to push and pull data using DVC
+
+```
+
+##### Multi runs in MLflow
+<div align="center">
+  
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/a300c844-f4e1-47ee-a892-78744545a713)
+
+</div>
+
+##### Scatter plot of patch_size vs val/acc in MLflow 
+<div align="center">
+  
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/b09698ef-84d5-48e6-b3dd-98aa9db0e713)
+
+</div>
+
+##### Single run directory structure under logs/mlflow saving models, metrics, metadata etc.
+<div align="left">
+  
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/e5354b6e-4fae-4fdf-b6de-96281fef1b24)
+
+
+</div>
+
+
+
+

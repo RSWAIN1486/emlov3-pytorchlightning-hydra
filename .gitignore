@@ -163,3 +163,5 @@ imagenet_1k.json
 imagenet_classes.txt
 model_store/
 temp/
+logs/
+.aim/
