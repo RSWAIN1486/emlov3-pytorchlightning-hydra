@@ -20,7 +20,7 @@ ______________________________________________________________________
 - Run training and inference on Kaggle's cats and dogs dataset using Vit Transformer model.
 - Use hydra multirun using joblib to train vit model on cifar10 dataset for multiple patch size using docker and view mlflow logger UI during runtime.
 
-## How to run on local
+## Run on Local
 
 ### Installation
 
@@ -41,12 +41,12 @@ conda activate myenv
 # install requirements
 pip install -r requirements.txt
 ```
-#### Dev mode
+#### Dev Mode
 
 ```bash
 pip install -e .
 ```
-#### Train model with default/cpu configuration
+#### Train Model with default/cpu configuration
 
 ```bash
 # train on CPU
@@ -58,7 +58,7 @@ python src/train.py trainer.max_epochs=20 data.batch_size=64
 ```
 
 
-## How to run using Docker
+## Run Training and Evaluation using Docker
 
 ```bash
 # Build Docker on local
@@ -83,7 +83,7 @@ docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlight
 </div>
 
 
-## How to push and pull data using DVC
+## Push and Pull Data using DVC
 
 ```bash
 # Track and update your data by creating or updating data.dvc file.
@@ -107,7 +107,7 @@ dvc install
 
 ```
 
-## Run inference on Kaggle's cats and dogs dataset
+## Run Inference on Kaggle's cats and dogs dataset
 ```bash
 # If installed using dev mode, run infer with experiment/cat_dog_infer.yaml using
 src_infer experiment=cat_dog_infer test_path=./data/PetImages_split/test/Cat/18.jpg
@@ -123,7 +123,7 @@ python src/infer.py experiment=cat_dog_infer test_path=./data/PetImages_split/te
 
 </div>
 
-## How to train using hydra multirun with joblib launcher (dataset cifar10, model Vit, patch size 1,2,4,8,16)
+## Train using Hydra multirun with Joblib launcher (Dataset cifar10, Model Vit, patch_size 1,2,4,8,16)
 ```bash
 # Build Docker on local
 docker build -t lightning-hydra-multiexperiments .
@@ -133,7 +133,8 @@ docker pull rswain1486/lightning-hydra-experimenttracking:latest
 # Run below command to start the patch size experiment using hydra joblib launcher.
 # NOTE: Make sure to add port mapping from container to host if you would like to view MLflow Logger UI during runtime
 # NOTE: Make sure to add volume mapping of local host directory to container workspace directory to save logs, models on local for dvc tracking.
-docker run -it --expose 5000 -p 5000:5000 -v ${pwd}:/workspace --name mlflow-container lightning-hydra-experimenttracking:latest src_train -m hydra/launcher=joblib hydra.launcher.n_jobs=5 experiment=cifar10 model.patch_size=1,2,4,8,16 datamodule.num_workers=0
+docker run -it --expose 5000 -p 5000:5000 -v ${pwd}:/workspace --name mlflow-container lightning-hydra-experimenttracking:latest \
+src_train -m hydra/launcher=joblib hydra.launcher.n_jobs=5 experiment=cifar10 model.patch_size=1,2,4,8,16 datamodule.num_workers=0
 
 # Run below command to start MLFlow Logger server inside the container and open http://localhost:5000 on your browser
 docker exec -it -w /workspace/logs/mlflow mlflow-container mlflow ui --host 0.0.0.0
@@ -176,6 +177,27 @@ git add logs.dvc
 
 </div>
 
+## HyperParameter Optimization using Optuna & Hydra Multirun (Dataset HarryPotter, Model GPT)
+
+```bash
+# Find the Best Learning Rate and Batch size using Lightning Tuner
+src_train -m tuner=True train=False test=False datamodule.num_workers=2 experiment=harrypotter
+
+# Run Hyperparameter Search using Optuna using Hydra config file
+src_train -m test=False datamodule.num_workers=2 experiment=harrypotter hparams_search=harrypotter_optuna
+
+# Load MLFlow logger UI to compare HyperParameter Experiments
+cd logs/mlflow
+mlflow ui
+
+# Run Training for n epochs with Best HyperHarameters
+src_train -m tuner=True test=False trainer.max_epochs=10 datamodule.num_workers=2 experiment=harrypotter datamodule.block_size=6 \
+model.block_size=8 model.net.block_size=8 model.net.n_embed=192 model.net.n_heads=8 model.net.drop_p=0.2 model.net.n_decoder_blocks=4
+```
+
+##### Scatter plot of different HyperParameters across Experiments in MLflow
+<div align="left">
 
 
+</div>
 

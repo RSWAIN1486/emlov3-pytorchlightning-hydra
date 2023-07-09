@@ -11,10 +11,9 @@ defaults:
   - logger: many_loggers.yaml
   - callbacks: default.yaml
   - hydra: default.yaml
-
-  # experiment configs allow for version control of specific hyperparameters
-  # e.g. best hyperparameters for given model and datamodule
+  - hparams_search: null
   - experiment: null
+  
   
 # task name, determines output directory path
 task_name: "train"
@@ -25,6 +24,9 @@ train: True
 # evaluate on test set, using best model weights achieved during training
 # lightning chooses best weights based on the metric specified in checkpoint callback
 test: True
+
+# Find the best learning rate and batch size
+tuner: False
 
 # compile model for faster training with pytorch 2.0
 compile: False
