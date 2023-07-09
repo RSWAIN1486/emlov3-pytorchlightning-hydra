@@ -191,8 +191,8 @@ cd logs/mlflow
 mlflow ui
 
 # Run Training for n epochs with Best HyperHarameters
-src_train -m tuner=True test=False trainer.max_epochs=10 datamodule.num_workers=2 experiment=harrypotter datamodule.block_size=6 \
-model.block_size=8 model.net.block_size=8 model.net.n_embed=192 model.net.n_heads=8 model.net.drop_p=0.2 model.net.n_decoder_blocks=4
+src_train -m tuner=True test=False trainer.max_epochs=10 datamodule.num_workers=2 experiment=harrypotter datamodule.block_size=8 \
+model.block_size=8 model.net.block_size=8 model.net.n_embed=256 model.net.n_heads=8 model.net.drop_p=0.15 model.net.n_decoder_blocks=4
 ```
 
 ##### Scatter plot of different HyperParameters across Experiments in MLflow
