@@ -178,7 +178,7 @@ git add logs.dvc
 </div>
 
 ## HyperParameter Optimization using Optuna & Hydra Multirun (Dataset HarryPotter, Model GPT)
-
+<a href="https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/blob/main/examples/HParams_Optimization_Lightning_Hydra_Optuna_GPT_HarryPotter.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 ```bash
 # Find the Best Learning Rate and Batch size using Lightning Tuner
 src_train -m tuner=True train=False test=False datamodule.num_workers=2 experiment=harrypotter
@@ -197,6 +197,8 @@ model.block_size=8 model.net.block_size=8 model.net.n_embed=256 model.net.n_head
 
 ##### Scatter plot of different HyperParameters across Experiments in MLflow
 <div align="left">
+
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/960b2748-a4fe-483d-8660-98dc81488c43)
 
 
 </div>
