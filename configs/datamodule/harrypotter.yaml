@@ -1,0 +1,9 @@
+_target_: src.datamodule.harrypotter_datamodule.HarryPotterDataModule
+data_dir: ${paths.data_dir}
+txt_file: "harrypotter.txt"
+download: True
+train_ratio: 0.7
+batch_size: 128
+num_workers: 0
+block_size: 8
+pin_memory: False

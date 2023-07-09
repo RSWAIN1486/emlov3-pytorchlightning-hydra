@@ -1,0 +1,9 @@
+# https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.callbacks.EarlyStopping.html
+
+lr_finder:
+  _target_: lightning.pytorch.callbacks.LearningRateFinder
+  min_lr: 1e-4 # Minimum learning rate to investigate
+  max_lr: 1.0 # Maximum learning rate to investigate
+  num_training_steps: 100 # Number of learning rates to test
+  mode: 'exponential' # Increases the learning rate exponentially.
+  early_stop_threshold: 2.0 # (Optional[float]) – Threshold for stopping the search. If the loss at any point is larger than early_stop_threshold*best_loss then the search is stopped. To disable, set to None.

@@ -29,23 +29,32 @@ root = pyrootutils.setup_root(
 #
 # https://github.com/ashleve/pyrootutils
 # ------------------------------------------------------------------------------------ #
-from typing import Tuple, Dict
+from typing import Tuple, Dict, List
 import mlflow
 import lightning.pytorch as L
 import hydra
 from omegaconf import DictConfig
+from lightning.pytorch import Callback, LightningDataModule, LightningModule, Trainer
+from lightning.pytorch.loggers import Logger
+
 from lightning.pytorch.loggers.mlflow import MLFlowLogger
+from lightning.pytorch.callbacks import LearningRateFinder
 import torch
 from src import utils
 import os
 log = utils.get_pylogger(__name__)
-
+from lightning.pytorch.tuner import Tuner
 
 @utils.task_wrapper
 def train(cfg: DictConfig) -> Tuple[dict, dict]:
     # set seed for random number generators in pytorch, numpy and python.random
     if cfg.get("seed"):
         L.seed_everything(cfg.seed, workers=True)
+
+    # Override block_size for GPT training while Optuna Hyperparam Optimization
+    if bool(cfg['datamodule'].get('block_size', {})):
+        cfg.model.block_size     = cfg.datamodule.block_size
+        cfg.model.net.block_size = cfg.datamodule.block_size
 
     log.info(f"Instantiating datamodule <{cfg.datamodule._target_}>")
     datamodule: LightningDataModule = hydra.utils.instantiate(cfg.datamodule)
@@ -58,6 +67,10 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
 
     log.info("Instantiating callbacks...")
     callbacks: List[Callback] = utils.instantiate_callbacks(cfg.get("callbacks"))
+
+    # Disable Learning Rate finder callbacks for trainer, in case of tuner is enabled.
+    if cfg.get("tuner"): 
+        callbacks = [callback_ for callback_ in callbacks if not isinstance(callback_, LearningRateFinder)]
 
     log.info(f"Instantiating trainer <{cfg.trainer._target_}>")
     trainer: Trainer = hydra.utils.instantiate(cfg.trainer, callbacks=callbacks, logger=logger)
@@ -75,6 +88,17 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
         log.info("Logging hyperparameters!")
         utils.log_hyperparameters(object_dict)
 
+    if cfg.get("tuner"):
+        log.info("Running LR Finder!")        
+        tuner = Tuner(trainer)
+        lr_finder = tuner.lr_find(model, datamodule)
+        print(f"best initial lr={model.hparams.learning_rate}")
+  
+        log.info("Running Batch Size Finder!")        
+        # Auto-scale batch size by growing it exponentially (default)
+        tuner.scale_batch_size(model, datamodule, mode="power")    
+        print(f"optimal batch size = {datamodule.hparams.batch_size}")
+        
     if cfg.get("train"):
         log.info("Starting training!")
         
