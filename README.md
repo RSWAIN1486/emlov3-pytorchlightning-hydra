@@ -203,7 +203,7 @@ model.block_size=8 model.net.block_size=8 model.net.n_embed=256 model.net.n_head
 
 </div>
 
-#### Generate text using GPT for Harry Potter
+#### Generate text using GPT for Harry Potter using best hyperparams
 
 <div align="left">
 
