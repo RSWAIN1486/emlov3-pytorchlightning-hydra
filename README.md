@@ -203,3 +203,11 @@ model.block_size=8 model.net.block_size=8 model.net.n_embed=256 model.net.n_head
 
 </div>
 
+#### Generate text using GPT for Harry Potter
+
+<div align="left">
+
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/075fbbb9-fffd-4270-9e61-77f9f2fc368c)
+
+
+</div>
