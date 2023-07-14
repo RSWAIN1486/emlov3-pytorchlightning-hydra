@@ -211,3 +211,29 @@ model.block_size=8 model.net.block_size=8 model.net.n_embed=256 model.net.n_head
 
 
 </div>
+
+## Gradio Demo with TorchScript model (Dataset Cifar10, Model Vit)
+
+```bash
+# Install in dev mode
+pip install -e .
+
+# Train the Vit model on Cifar10 and save as TorchScript model. Set save_torchscript to True in configs/train.yaml
+src_train experiment=cifar10_jit save_torchscript=True
+
+# Infer on a test image using Torchscript model
+src_infer_jit test_path=./test/0000.jpg
+
+# Launch Gradio Demo for Cifar10 at port 8080 and open http://127.0.0.1:8000/.
+# NOTE: Set the ckpt_path and labels_path in configs/infer_jit.yaml
+src_demo_jit 
+
+```
+#### Gradio UI for Cifar10
+
+<div align="left">
+
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/4b0923ef-c6fd-42e3-9f6c-d969ff378658)
+
+
+</div>
