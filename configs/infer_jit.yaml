@@ -23,6 +23,9 @@ ckpt_path: ${paths.root_dir}/ckpt/model_script.pt
 # test image
 test_path: ${paths.root_dir}/test/0000.jpg
 
+# class labels txt
+labels_path: ${paths.root_dir}/src/gradio/cifar10_classes.txt
+
 # seed for random number generators in pytorch, numpy and python.random
 seed: null
 

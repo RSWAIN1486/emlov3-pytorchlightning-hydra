@@ -44,6 +44,7 @@ from src import utils
 
 log = utils.get_pylogger(__name__)
 
+categories = [  "cat", "dog"]
 
 @utils.task_wrapper
 def infer(cfg: DictConfig) -> Tuple[dict, dict]:
@@ -75,12 +76,7 @@ def infer(cfg: DictConfig) -> Tuple[dict, dict]:
     model.eval()
 
     log.info(f"Loaded Model: {model}")
-
-    categories = [
-        "cat",
-        "dog",
-    ]
-    
+   
     transforms = T.Compose(
         [
             T.Resize((32, 32)),

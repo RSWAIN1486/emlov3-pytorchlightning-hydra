@@ -248,41 +248,12 @@ class VitLitModule(LightningModule):
 
         # for tracking best so far validation accuracy
         self.val_acc_best = MaxMetric()
-        # self.predict_transform = T.Compose(
-        #                                         [
-        #                                             T.Resize((32, 32)),
-        #                                             T.ToTensor(),
-        #                                             T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        #                                         ]
-        #                                     )
 
-        # self.transforms = nn.Sequential(
-        #     ToTensorModule(),
-        #     transforms.Resize((32, 32)),
-        #     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        # )
-
-        # self.predict_transform = torch.jit.script(self.transforms)
 
 
     def forward(self, x: torch.Tensor):
         return self.model(x)
 
-    # @torch.jit.export
-    # def forward_jit(self, x: torch.Tensor):
-    #     with torch.no_grad():
-    #         # transform the inputs
-    #         x = self.predict_transform(x).unsqueeze(0)
-
-    #         # forward pass
-    #         logits = self(x)
-
-    #         preds = F.softmax(logits, dim=-1)
-
-    #     return preds
-    
-
-    
     def model_step(self, batch: Any):
         x, y = batch
         logits = self.forward(x)

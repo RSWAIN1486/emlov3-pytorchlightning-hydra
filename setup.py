@@ -17,7 +17,8 @@ setup(
             "src_train = src.train:main",
             "src_eval = src.eval:main",
             "src_infer = src.infer:main",
-            "src_infer_jit = src.infer_jit:main"
+            "src_infer_jit = src.infer_jit:main",
+            "src_demo_jit = src.gradio.demo_jit:main"
         ]
     },
 )
