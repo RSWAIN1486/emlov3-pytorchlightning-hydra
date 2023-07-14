@@ -3,7 +3,7 @@ defaults:
   - early_stopping.yaml
   - model_summary.yaml
   - rich_progress_bar.yaml
-  - lr_finder.yaml
+  # - lr_finder.yaml
   - _self_
 
 model_checkpoint:

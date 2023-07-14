@@ -44,6 +44,7 @@ from src import utils
 import os
 log = utils.get_pylogger(__name__)
 from lightning.pytorch.tuner import Tuner
+from pathlib import Path
 
 @utils.task_wrapper
 def train(cfg: DictConfig) -> Tuple[dict, dict]:
@@ -112,6 +113,18 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
         trainer.save_checkpoint(ckpt_save_path)
 
     train_metrics = trainer.callback_metrics
+
+    if cfg.get("save_torchscript"):
+        scripted_model = model.to_torchscript(method="script")
+        torch.jit.save(scripted_model, f"{cfg.paths.ckpt_dir}\model_script.pt")
+
+        log.info(f"Saving traced model to {cfg.paths.ckpt_dir}\model_script.pt")
+
+        saved_path = os.path.join(cfg.paths.ckpt_dir, 'model_script.pt')
+        if os.path.exists(saved_path):
+            log.info(f"Loading saved traced model at {saved_path}")
+            loaded_model = torch.jit.load(saved_path)
+            print(loaded_model)
 
     if cfg.get("test"):
         log.info("Starting testing!")
