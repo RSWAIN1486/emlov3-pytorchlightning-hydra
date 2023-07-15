@@ -234,6 +234,9 @@ docker compose  -f docker-compose.yml up --build demo
 # Launch Gradio demo by pulling from Dockerhub
 docker run -p 8080:8080 rswain1486/gradio-cifar10-demo:latest
 
+# To stop the demo, if the Ctrl + C does not work, use
+docker stop $(docker ps -aq)
+
 ```
 #### Gradio UI for Cifar10
 
