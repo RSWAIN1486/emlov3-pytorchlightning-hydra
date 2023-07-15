@@ -116,14 +116,59 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
 
     if cfg.get("save_torchscript"):
         scripted_model = model.to_torchscript(method="script")
-        torch.jit.save(scripted_model, f"{cfg.paths.ckpt_dir}\model_script.pt")
 
-        log.info(f"Saving traced model to {cfg.paths.ckpt_dir}\model_script.pt")
+        if cfg.paths.get("ckpt_jitscript_save_path"):
+            save_path =  cfg.paths.ckpt_jitscript_save_path   
+        else:    
+            save_path = os.path.join(cfg.paths.ckpt_dir, 'model_script.pt')
+            
+        torch.jit.save(scripted_model, f"{save_path}")
 
-        saved_path = os.path.join(cfg.paths.ckpt_dir, 'model_script.pt')
-        if os.path.exists(saved_path):
-            log.info(f"Loading saved traced model at {saved_path}")
-            loaded_model = torch.jit.load(saved_path)
+        log.info(f"Saving traced model to {save_path}")
+
+        
+        if os.path.exists(save_path):
+            log.info(f"Loading saved traced model at {save_path}")
+            loaded_model = torch.jit.load(save_path)
+            print(loaded_model)
+
+    if cfg.get("save_torchscript"):
+        scripted_model = model.to_torchscript(method="script")
+
+        if cfg.paths.get("ckpt_jitscript_save_path"):
+            save_path =  cfg.paths.ckpt_jitscript_save_path   
+        else:    
+            save_path = os.path.join(cfg.paths.ckpt_dir, 'model_script.pt')
+            
+        torch.jit.save(scripted_model, f"{save_path}")
+
+        log.info(f"Saving scripted model to {save_path}")
+
+        
+        if os.path.exists(save_path):
+            log.info(f"Loading saved scripted model at {save_path}")
+            loaded_model = torch.jit.load(save_path)
+            print(loaded_model)
+
+
+    if cfg.get("save_torchtrace"):
+        
+        sample_input = next(iter(datamodule.train_dataloader))
+        traced_model = torch.jit.trace(model, sample_input)
+
+        if cfg.paths.get("ckpt_jittrace_save_path"):
+            save_path =  cfg.paths.ckpt_jittrace_save_path   
+        else:    
+            save_path = os.path.join(cfg.paths.ckpt_dir, 'model_trace.pt')
+            
+        torch.jit.save(traced_model, f"{save_path}")
+
+        log.info(f"Saving traced model to {save_path}")
+
+        
+        if os.path.exists(save_path):
+            log.info(f"Loading saved traced model at {save_path}")
+            loaded_model = torch.jit.load(save_path)
             print(loaded_model)
 
     if cfg.get("test"):

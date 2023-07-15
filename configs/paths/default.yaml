@@ -13,6 +13,8 @@ log_dir: ${paths.root_dir}/logs/
 # path to checkpoints
 ckpt_dir: ${paths.root_dir}/ckpt
 ckpt_save_path: ${paths.root_dir}/ckpt/epoch1.ckpt
+ckpt_jitscript_save_path: ${paths.root_dir}/ckpt/torch_script.pt
+ckpt_jittrace_save_path: ${paths.root_dir}/ckpt/torch_trace.pt
 
 # path to output directory, created dynamically by hydra
 # path generation pattern is specified in `configs/hydra/default.yaml`
