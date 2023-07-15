@@ -135,10 +135,13 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
 
     if cfg.get("save_torchtrace"):
 
-        import os
-        os.environ['PYTORCH_JIT'] = '1'
+        # import os
+        # os.environ['PYTORCH_JIT'] = '1'
 
-        sample_input = next(iter(datamodule.train_dataloader()))[0]
+        # sample_input = next(iter(datamodule.train_dataloader()))[0]
+        
+        # Use this instead of trainloader if your batch size is high as colab runs out of memory and exits without error while tracing.
+        sample_input = torch.randint(0, 128, (128, datamodule.hparams.block_size)) 
 
         log.info(f"Starting to trace model")
         # Set the model to evaluation mode
