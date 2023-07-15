@@ -8,31 +8,6 @@ from lightning import LightningModule
 from torchmetrics import MaxMetric, MeanMetric, MinMetric
 from typing import Any, Optional
 
-
-
-
-def get_encoder():
-
-  cl100k_base = tiktoken.get_encoding("cl100k_base")
-
-  # In production, load the arguments directly instead of accessing private attributes
-  # See openai_public.py for examples of arguments for specific encodings
-  enc = tiktoken.Encoding(
-      # If you're changing the set of special tokens, make sure to use a different name
-      # It should be clear from the name what behaviour to expect.
-      name="cl100k_im",
-      pat_str=cl100k_base._pat_str,
-      mergeable_ranks=cl100k_base._mergeable_ranks,
-      special_tokens={
-          **cl100k_base._special_tokens,
-          "<|im_start|>": 100264,
-          "<|im_end|>": 100265,
-      }
-  )
-
-  return enc
-
-
 class MultiHeadAttentionCustom(nn.Module):
     def __init__(self, n_heads, n_dim, dropout=0.1):
         super(MultiHeadAttentionCustom, self).__init__()
@@ -103,10 +78,10 @@ class ResidualAdd(nn.Module):
 
         self.fn = fn
 
-    def forward(self, x, **kwargs):
+    def forward(self, x):
         res = x
 
-        out = self.fn(x, **kwargs)
+        out = self.fn(x)
 
         out += res
 
@@ -127,9 +102,9 @@ class GPTDecoderBlock(nn.Module):
     def __init__(
         self,
         emb_size = 768,
-        drop_p = 0.,
+        drop_p = 0.0,
         forward_expansion = 4,
-        forward_drop_p = 0,
+        forward_drop_p = 0.0,
         n_heads=4
     ):
         super(GPTDecoderBlock, self).__init__()
@@ -146,7 +121,7 @@ class GPTDecoderBlock(nn.Module):
             )
         )
 
-    def forward(self, x, mask = None):
+    def forward(self, x: torch.Tensor, mask: Optional[torch.Tensor] = None):
         residual = x
 
         out = self.ln(x)
@@ -169,9 +144,6 @@ class GPT(nn.Module):
         
         super(GPT, self).__init__()
 
-        # enc = get_encoder()
-        # vocab_size = enc.n_vocab
-
         self.block_size = block_size
         self.token_embedding_table = nn.Embedding(vocab_size, n_embed)
         self.position_embedding_table = nn.Embedding(block_size, n_embed)
@@ -193,7 +165,7 @@ class GPT(nn.Module):
         # query: what am i looking for?
         # key: what do i contain?
 
-    def forward(self, idx, targets=None, mask=None):
+    def forward(self, idx: torch.Tensor, targets: Optional[torch.Tensor]=None, mask: Optional[torch.Tensor]=None):
         B, T = idx.shape
 
         tok_emb = self.token_embedding_table(idx)
@@ -206,7 +178,7 @@ class GPT(nn.Module):
         logits = self.lm_head(x)
 
         if targets is None:
-            loss = None
+            loss = torch.tensor(0)
         else:
             B, T, C = logits.shape
             logits = logits.view(B*T, C)
@@ -215,28 +187,35 @@ class GPT(nn.Module):
 
         return logits, loss
 
-    @torch.no_grad()
-    def generate(self, idx, max_new_tokens, temperature = 1.0, top_k = None):
-        for _ in range(max_new_tokens):
+
+    @torch.jit.export
+    def generate(self, idx: torch.Tensor, max_new_tokens: int, temperature: float = 1.0, top_k: Optional[int] = None):
+        B, T = idx.shape
+
+        # Expand the input tensor to accommodate the generated tokens
+        idx = idx.expand(B, T + max_new_tokens)
+
+        for t in range(T, T + max_new_tokens):
             # if the sequence context is growing too long we must crop it at block_size
-            idx_cond = idx if idx.size(1) <= self.block_size else idx[:, -self.block_size:]
+            idx_cond = idx if t <= self.block_size else idx[:, t - self.block_size : t]
             # forward the model to get the logits for the index in the sequence
-            logits, _ = self(idx_cond)
+            logits, _ = self(idx_cond, targets=None, mask=None)
             # pluck the logits at the final step and scale by desired temperature
-            logits = logits[:, -1, :] / temperature
+            logits = logits[:, t - 1, :] / temperature
             # optionally crop the logits to only the top k options
             if top_k is not None:
                 v, _ = torch.topk(logits, min(top_k, logits.size(-1)))
-                logits[logits < v[:, [-1]]] = -float('Inf')
+                logits[logits < v[:, [-1]]] = -float("Inf")
             # apply softmax to convert logits to (normalized) probabilities
             probs = F.softmax(logits, dim=-1)
             # sample from the distribution
             idx_next = torch.multinomial(probs, num_samples=1)
-            # append sampled index to the running sequence and continue
-            idx = torch.cat((idx, idx_next), dim=1)
+            # update the sequence with the sampled index
+            idx[:, t] = idx_next.squeeze(dim=-1)
 
+        # Return the generated sequence
         return idx
-    
+      
 class GPTLitModule(LightningModule):
     def __init__(
         self,
@@ -272,7 +251,7 @@ class GPTLitModule(LightningModule):
 
         self.register_buffer("mask", torch.tril(torch.ones(self.hparams.block_size, self.hparams.block_size)) == 0)
 
-    def forward(self, x: torch.Tensor, targets: torch.Tensor = None):
+    def forward(self, x: torch.Tensor, targets: Optional[torch.Tensor] = None):
         mask = self.mask if targets is not None else None
         return self.model(x, targets=targets, mask=mask)
 

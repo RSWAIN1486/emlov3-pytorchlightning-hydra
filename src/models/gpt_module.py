@@ -7,31 +7,6 @@ from lightning import LightningModule
 from torchmetrics import MaxMetric, MeanMetric, MinMetric
 from typing import Any
 
-
-
-
-def get_encoder():
-
-  cl100k_base = tiktoken.get_encoding("cl100k_base")
-
-  # In production, load the arguments directly instead of accessing private attributes
-  # See openai_public.py for examples of arguments for specific encodings
-  enc = tiktoken.Encoding(
-      # If you're changing the set of special tokens, make sure to use a different name
-      # It should be clear from the name what behaviour to expect.
-      name="cl100k_im",
-      pat_str=cl100k_base._pat_str,
-      mergeable_ranks=cl100k_base._mergeable_ranks,
-      special_tokens={
-          **cl100k_base._special_tokens,
-          "<|im_start|>": 100264,
-          "<|im_end|>": 100265,
-      }
-  )
-
-  return enc
-
-
 class MultiHeadAttention(nn.Module):
     def __init__(self, n_heads, n_dim, dropout=0.1):
         super(MultiHeadAttention, self).__init__()
@@ -167,9 +142,6 @@ class GPT(nn.Module):
                  n_decoder_blocks = 4):
         
         super(GPT, self).__init__()
-
-        # enc = get_encoder()
-        # vocab_size = enc.n_vocab
 
         self.block_size = block_size
         self.token_embedding_table = nn.Embedding(vocab_size, n_embed)
