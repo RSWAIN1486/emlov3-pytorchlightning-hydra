@@ -224,9 +224,15 @@ src_train experiment=cifar10_jit save_torchscript=True
 # Infer on a test image using Torchscript model
 src_infer_jit test_path=./test/0000.jpg
 
-# Launch Gradio Demo for Cifar10 at port 8080 and open http://localhost:8080/.
+# Launch Gradio Demo for Cifar10 at port 8080 and open http://localhost:8080/
 # NOTE: Set the ckpt_path and labels_path in configs/infer_jit.yaml
-src_demo_jit 
+src_demo_jit
+
+# Build and Launch Gradio Demo using Docker. This should launch demo at http://localhost:8080/. Ensure to expose the port in docker-compose/ DockerFile.demo
+docker compose  -f docker-compose.yml up --build demo
+
+# Launch Gradio demo by pulling from Dockerhub
+docker run -p 8080:8080 rswain1486/gradio-cifar10-demo:latest
 
 ```
 #### Gradio UI for Cifar10
