@@ -58,7 +58,7 @@ python src/train.py trainer.max_epochs=20 data.batch_size=64
 ```
 
 
-## Run Training and Evaluation using Docker
+## Session4 :  Run Training and Evaluation using Docker
 
 ```bash
 # Build Docker on local
@@ -83,7 +83,7 @@ docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlight
 </div>
 
 
-## Push and Pull Data using DVC
+## Session5 :  Push and Pull Data using DVC
 
 ```bash
 # Track and update your data by creating or updating data.dvc file.
@@ -107,7 +107,7 @@ dvc install
 
 ```
 
-## Run Inference on Kaggle's cats and dogs dataset
+### Run Inference on Kaggle's cats and dogs dataset
 ```bash
 # If installed using dev mode, run infer with experiment/cat_dog_infer.yaml using
 src_infer experiment=cat_dog_infer test_path=./data/PetImages_split/test/Cat/18.jpg
@@ -123,7 +123,7 @@ python src/infer.py experiment=cat_dog_infer test_path=./data/PetImages_split/te
 
 </div>
 
-## Train using Hydra multirun with Joblib launcher (Dataset cifar10, Model Vit, patch_size 1,2,4,8,16)
+## Session6 : Train using Hydra multirun with Joblib launcher (Dataset cifar10, Model Vit, patch_size 1,2,4,8,16)
 ```bash
 # Build Docker on local
 docker build -t lightning-hydra-multiexperiments .
@@ -177,7 +177,7 @@ git add logs.dvc
 
 </div>
 
-## HyperParameter Optimization using Optuna & Hydra Multirun (Dataset HarryPotter, Model GPT)
+## Session7 : HyperParameter Optimization using Optuna & Hydra Multirun (Dataset HarryPotter, Model GPT)
 <a href="https://colab.research.google.com/github/RSWAIN1486/emlov3-pytorchlightning-hydra/blob/main/examples/HParams_Optimization_Lightning_Hydra_Optuna_GPT_HarryPotter.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 ```bash
 # Find the Best Learning Rate and Batch size using Lightning Tuner
@@ -212,7 +212,7 @@ model.block_size=8 model.net.block_size=8 model.net.n_embed=256 model.net.n_head
 
 </div>
 
-## Gradio Demo with TorchScript model (Dataset Cifar10, Model Vit)
+## Session8 : Gradio Demo with TorchScript model (Dataset Cifar10, Model Vit)
 
 ```bash
 # Install in dev mode
@@ -239,7 +239,6 @@ docker run -p 8080:8080 rswain1486/gradio-cifar10-demo:latest
 
 <div align="left">
 
-![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/4b0923ef-c6fd-42e3-9f6c-d969ff378658)
-
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/af46c1f1-a702-41c0-bbfe-45ccb97f718f)
 
 </div>
