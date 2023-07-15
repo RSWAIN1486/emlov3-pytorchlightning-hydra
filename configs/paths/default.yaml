@@ -11,7 +11,7 @@ data_dir: ${paths.root_dir}/data
 log_dir: ${paths.root_dir}/logs/
 
 # path to checkpoints
-ckpt_dir: ${paths.root_dir}\ckpt
+ckpt_dir: ${paths.root_dir}/ckpt
 ckpt_save_path: ${paths.root_dir}/ckpt/epoch1.ckpt
 
 # path to output directory, created dynamically by hydra

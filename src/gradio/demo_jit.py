@@ -4,17 +4,12 @@ import hydra
 import gradio as gr
 from omegaconf import DictConfig
 import torch
-import json
-from src import utils
 from torchvision import transforms
 from torch.nn import functional as F
-import os
-from src import utils
+import logging
 
-log = utils.get_pylogger(__name__)
-
-server_name = "PREDICT CIFAR"
-os.environ['GRADIO_SERVER_NAME'] = server_name
+log = logging.getLogger(__name__)
+# log = utils.get_pylogger(__name__)
 
 def demo(cfg: DictConfig) -> Tuple[dict, dict]:
 
@@ -53,7 +48,7 @@ def demo(cfg: DictConfig) -> Tuple[dict, dict]:
         topk_label = out[1].tolist()
 
         confidences  = {categories[topk_label[i]]: topk_prob[i] for i in range(len(categories))}
-
+        print(confidences)
         return confidences
 
 
