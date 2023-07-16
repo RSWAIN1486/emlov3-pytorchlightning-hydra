@@ -20,6 +20,7 @@ setup(
             "src_infer_jit_script_vit = src.infer_jit_script_vit:main",
             "src_demo_jit_script_vit = src.gradio.demo_jit_script_vit:main",
             "src_infer_jit_trace_gpt = src.infer_jit_trace_gpt:main",
+            "src_demo_jit_trace_gpt = src.gradio.demo_jit_trace_gpt:main",
         ]
     },
 )

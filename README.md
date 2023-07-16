@@ -248,6 +248,8 @@ docker stop $(docker ps -aq)
 
 ## Session8 : Gradio Demo with Torch Trace model (Dataset HarryPotter, Model GPT)
 
+<a href="https://colab.research.google.com/github/RSWAIN1486/emlov3-pytorchlightning-hydra/blob/main/examples/GPT_HarryPotter_TorchTrace.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+
 ```bash
 # Install in dev mode
 pip install -e .
@@ -258,4 +260,6 @@ src_train -m experiment=harrypotter_jit.yaml test=False trainer.max_epochs=20 tr
 # Generate text using Torch traced model
 src_infer_jit_trace_gpt ckpt_path=ckpt/gpt_torch_traced.pt input_txt='Avada Kedavra'
 
+# Launch Gradio demo
+src_demo_jit_trace_gpt ckpt_path=ckpt/gpt_torch_traced.pt
 ```
