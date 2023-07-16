@@ -2,22 +2,32 @@ import tiktoken
 import torch
 from torch import nn
 from torch.nn import functional as F
-from einops import rearrange, reduce, repeat, einsum
+# from einops import rearrange, reduce, repeat, einsum
+from einops.layers.torch import Rearrange, Reduce
 from lightning import LightningModule
 from torchmetrics import MaxMetric, MeanMetric, MinMetric
-from typing import Any
+from typing import Any, Optional
 
-class MultiHeadAttention(nn.Module):
+class MultiHeadAttentionCustom(nn.Module):
     def __init__(self, n_heads, n_dim, dropout=0.1):
-        super(MultiHeadAttention, self).__init__()
+        super(MultiHeadAttentionCustom, self).__init__()
 
         self.n_heads = n_heads
         self.n_dim = n_dim
         self.h_dim = n_dim // n_heads
 
-        self.keys = nn.Linear(n_dim, self.h_dim * self.n_heads)
-        self.queries = nn.Linear(n_dim, self.h_dim * self.n_heads)
-        self.values = nn.Linear(n_dim, self.h_dim * self.n_heads)
+        self.keys = nn.Sequential(
+            nn.Linear(n_dim, self.h_dim * self.n_heads),
+            Rearrange('b time (nh dim) -> nh b time dim', nh=self.n_heads)
+        )
+        self.queries = nn.Sequential(
+            nn.Linear(n_dim, self.h_dim * self.n_heads),
+            Rearrange('b time (nh dim) -> nh b time dim', nh=self.n_heads)
+        )
+        self.values = nn.Sequential(
+            nn.Linear(n_dim, self.h_dim * self.n_heads),
+            Rearrange('b time (nh dim) -> nh b time dim', nh=self.n_heads)
+        )
 
         self.proj = nn.Linear(n_dim, n_dim)
 
@@ -25,49 +35,40 @@ class MultiHeadAttention(nn.Module):
 
         self.attn_dropout = nn.Dropout(p=dropout)
 
-    def forward(self, x, mask = None):
-        key = rearrange(
-            self.keys(x),
-            'b time (nh dim) -> nh b time dim', nh=self.n_heads
-        )
-        query = rearrange(
-            self.queries(x),
-            'b time (nh dim) -> nh b time dim', nh=self.n_heads
-        )
-        value = rearrange(
-            self.values(x),
-            'b time (nh dim) -> nh b time dim', nh=self.n_heads
+        self.rearrange_out = Rearrange(
+            'nh b vt dim -> b vt (nh dim)'
         )
 
-        energies = einsum(
+    def forward(self, x: torch.Tensor, mask: Optional[torch.Tensor] = None):
+        key = self.keys(x)
+        query = self.queries(x)
+        value = self.values(x)
+
+        energies = torch.einsum(
+            'nbqd,nbkd->nbqk',
             query,
             key,
-            'nh b qt dim, nh b kt dim -> nh b qt kt'
+
         )
 
         if mask is not None:
-            fill_value = torch.finfo(energies.dtype).min
+            fill_value = 1e-20
             energies = energies.masked_fill(mask, fill_value)
-
 
         attn = F.softmax(energies, dim=-1)
 
         attn = self.attn_dropout(attn)
 
-        out = einsum(
+        out = torch.einsum(
+            'nbqk,nbkd->nbqd',
             attn,
             value,
-            'nh b qt kt, nh b kt dim -> nh b qt dim'
         )
 
-        out = rearrange(
-            out,
-            'nh b vt dim -> b vt (nh dim)'
-        )
-        # print(f"{out.shape=}")
+        out = self.rearrange_out(out)
+
         out = self.proj(out)
 
-        # print(f"{out.shape=}")
         return out
 
 
@@ -77,10 +78,10 @@ class ResidualAdd(nn.Module):
 
         self.fn = fn
 
-    def forward(self, x, **kwargs):
+    def forward(self, x):
         res = x
 
-        out = self.fn(x, **kwargs)
+        out = self.fn(x)
 
         out += res
 
@@ -101,15 +102,15 @@ class GPTDecoderBlock(nn.Module):
     def __init__(
         self,
         emb_size = 768,
-        drop_p = 0.,
+        drop_p = 0.0,
         forward_expansion = 4,
-        forward_drop_p = 0,
+        forward_drop_p = 0.0,
         n_heads=4
     ):
         super(GPTDecoderBlock, self).__init__()
 
         self.ln = nn.LayerNorm(emb_size)
-        self.mha = MultiHeadAttention(n_heads=n_heads, n_dim=emb_size, dropout=drop_p)
+        self.mha = MultiHeadAttentionCustom(n_heads=n_heads, n_dim=emb_size, dropout=drop_p)
         self.drop = nn.Dropout(drop_p)
 
         self.out_block = ResidualAdd(
@@ -120,7 +121,7 @@ class GPTDecoderBlock(nn.Module):
             )
         )
 
-    def forward(self, x, mask = None):
+    def forward(self, x: torch.Tensor, mask: Optional[torch.Tensor] = None):
         residual = x
 
         out = self.ln(x)
@@ -164,7 +165,7 @@ class GPT(nn.Module):
         # query: what am i looking for?
         # key: what do i contain?
 
-    def forward(self, idx, targets=None, mask=None):
+    def forward(self, idx: torch.Tensor, targets: Optional[torch.Tensor]=None, mask: Optional[torch.Tensor]=None):
         B, T = idx.shape
 
         tok_emb = self.token_embedding_table(idx)
@@ -177,7 +178,7 @@ class GPT(nn.Module):
         logits = self.lm_head(x)
 
         if targets is None:
-            loss = None
+            loss = torch.tensor(0)
         else:
             B, T, C = logits.shape
             logits = logits.view(B*T, C)
@@ -186,13 +187,14 @@ class GPT(nn.Module):
 
         return logits, loss
 
-    @torch.no_grad()
-    def generate(self, idx, max_new_tokens, temperature = 1.0, top_k = None):
+
+    @torch.jit.export
+    def generate(self, idx: torch.Tensor, max_new_tokens: int, temperature: float = 1.0, top_k: Optional[int] = None):
         for _ in range(max_new_tokens):
             # if the sequence context is growing too long we must crop it at block_size
             idx_cond = idx if idx.size(1) <= self.block_size else idx[:, -self.block_size:]
             # forward the model to get the logits for the index in the sequence
-            logits, _ = self(idx_cond)
+            logits, _ = self(idx_cond, targets=None, mask=None)
             # pluck the logits at the final step and scale by desired temperature
             logits = logits[:, -1, :] / temperature
             # optionally crop the logits to only the top k options
@@ -207,7 +209,7 @@ class GPT(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1)
 
         return idx
-    
+      
 class GPTLitModule(LightningModule):
     def __init__(
         self,
@@ -243,7 +245,7 @@ class GPTLitModule(LightningModule):
 
         self.register_buffer("mask", torch.tril(torch.ones(self.hparams.block_size, self.hparams.block_size)) == 0)
 
-    def forward(self, x: torch.Tensor, targets: torch.Tensor = None):
+    def forward(self, x: torch.Tensor, targets: Optional[torch.Tensor] = None):
         mask = self.mask if targets is not None else None
         return self.model(x, targets=targets, mask=mask)
 

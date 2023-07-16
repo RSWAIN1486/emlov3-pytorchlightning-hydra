@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="src",
-    version="0.0.1",
+    version="2.0.0",
     description="PyTorch Lightning Project Setup using Hydra with TIMM template.",
     author="",
     author_email="",
@@ -16,7 +16,10 @@ setup(
         "console_scripts": [
             "src_train = src.train:main",
             "src_eval = src.eval:main",
-            "src_infer = src.infer:main"
+            "src_infer = src.infer:main",
+            "src_infer_jit_script_vit = src.infer_jit_script_vit:main",
+            "src_demo_jit_script_vit = src.gradio.demo_jit_script_vit:main",
+            "src_infer_jit_trace_gpt = src.infer_jit_trace_gpt:main",
         ]
     },
 )

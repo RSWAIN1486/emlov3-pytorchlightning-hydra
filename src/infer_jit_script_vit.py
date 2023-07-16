@@ -34,17 +34,14 @@ from typing import List, Tuple
 from PIL import Image
 import hydra
 from omegaconf import DictConfig
-import lightning.pytorch as L
-from lightning.pytorch import LightningModule
 import torch
-import torch.nn.functional as F
-import torchvision.transforms as T
 import json
 from src import utils
+from torchvision import transforms
+from torch.nn import functional as F
 
 log = utils.get_pylogger(__name__)
-
-categories = [  "cat", "dog"]
+categories = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
 
 @utils.task_wrapper
 def infer(cfg: DictConfig) -> Tuple[dict, dict]:
@@ -64,49 +61,43 @@ def infer(cfg: DictConfig) -> Tuple[dict, dict]:
 
     # set seed for random number generators in pytorch, numpy and python.random
     if cfg.get("seed"):
-        L.seed_everything(cfg.seed, workers=True)
+        torch.manual_seed(42)
 
-    log.info(f"Instantiating model <{cfg.model._target_}>")
-    model: LightningModule = hydra.utils.instantiate(cfg.model)
-
-    log.info(f"Instantiating best model <{cfg.ckpt_path}>")
-    ckpt = torch.load(cfg.ckpt_path)
-
-    model.load_state_dict(ckpt["state_dict"])
-    model.eval()
-
-    log.info(f"Loaded Model: {model}")
-   
-    transforms = T.Compose(
-        [
-            T.Resize((32, 32)),
-            T.ToTensor(),
-            T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        ]
-    )
+    log.info(f"Instantiating scripted model <{cfg.ckpt_path}>")
+    model = torch.jit.load(cfg.ckpt_path)
 
     image_path = cfg.test_path
-    img = Image.open(image_path)
-    if img is None:
+    image = Image.open(image_path)
+    if image is None:
         return None
-    img = transforms(img).unsqueeze(0)
-    logits = model(img)
+
+    predict_transform = transforms.Compose(
+                                [
+                                    transforms.Resize((32, 32)), 
+                                    transforms.ToTensor(),
+                                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+                                ]
+                            )
+    image_tensor = predict_transform(image)
+    batch_image_tensor = torch.unsqueeze(image_tensor, 0)
+    logits = model(batch_image_tensor)
+
     preds = F.softmax(logits, dim=1).squeeze(0).tolist()
-    out = torch.topk(torch.tensor(preds), 2)
+    out = torch.topk(torch.tensor(preds), len(categories))
     topk_prob  = out[0].tolist()
     topk_label = out[1].tolist()
-    
+
     print(' \n Top k Predictions :')
-    pred_json  = {categories[topk_label[i]]: topk_prob[i] for i in range(2)}
+    pred_json  = {categories[topk_label[i]]: topk_prob[i] for i in range(10)}
     print(json.dumps(pred_json, indent = 3))
     print('\n')
     
-    return pred_json
+    return pred_json, {}    
 
 
-@hydra.main(version_base="1.3", config_path="../configs", config_name="infer.yaml")
+@hydra.main(version_base="1.3", config_path="../configs", config_name="infer_jit_script_vit.yaml")
 def main(cfg: DictConfig) -> None:
-    infer(cfg)
+    result_dict, _ = infer(cfg)
 
 
 if __name__ == "__main__":

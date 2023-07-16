@@ -11,53 +11,6 @@ from lightning import  LightningDataModule
 from typing import Any, Optional
 import requests
 
-# def get_data_harry_potter():
-
-#   repo_url = 'https://github.com/formcept/whiteboard.git'
-#   folder_path = 'nbviewer/notebooks/data/harrypotter'
-#   temp_dir = 'temp'
-#   destination_dir = 'data'
-
-#   if os.path.exists(temp_dir) and os.path.isdir(temp_dir):
-#       shutil.rmtree(temp_dir)
-
-#   if os.path.exists(destination_dir) and os.path.isdir(destination_dir):
-#       shutil.rmtree(destination_dir)
-
-#   os.makedirs(temp_dir, exist_ok=True)
-
-
-#   Repo.clone_from(repo_url, temp_dir)
-#   shutil.copytree(f'{temp_dir}/{folder_path}', destination_dir)
-#   shutil.rmtree(temp_dir)
-
-#     # Books present
-#   books = sorted(glob.glob(f'{destination_dir}/*.txt'))
-#   # print("Available Books: \n")
-#   # for i in books:
-#   #     print(i.split("/")[1])
-
-#   # Read data from all books to single corpus variable
-#   temp = ""
-
-#   book_raw = ""
-#   for book in books:
-#       with open(book, 'r', encoding='utf8') as f:
-#         temp = f.read()
-#         book_raw += '\n' + temp
-
-#   corpus_file = 'data/Harry_Potter_corpus.txt'
-
-#   if os.path.isfile(corpus_file):
-#     os.remove(corpus_file)
-
-#   with open(corpus_file, 'w', encoding='utf8') as f:
-#       f.write(book_raw)
-
-#   # print(f'\n Corpus saved at {corpus_file}')
-
-#   return corpus_file
-
 
 class HarryPotterDataset(Dataset):
     def __init__(self, data_dir="./data", txt_file="harrypotter.txt", block_size=8, download=True):

@@ -1,0 +1,19 @@
+_target_: src.models.gpt_module_jit.GPTLitModule
+learning_rate: 1e-3
+block_size: ${datamodule.block_size} # Use from datamodule as both needs to be same
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.001
+  weight_decay: 0.0
+
+net:
+  _target_: src.models.gpt_module_jit.GPT
+  vocab_size: 100277
+  block_size: ${datamodule.block_size} # Use from datamodule as both needs to be same
+  n_embed: 256
+  n_heads: 8
+  drop_p: 0.15
+  n_decoder_blocks: 4
+

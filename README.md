@@ -58,7 +58,7 @@ python src/train.py trainer.max_epochs=20 data.batch_size=64
 ```
 
 
-## Run Training and Evaluation using Docker
+## Session4 :  Run Training and Evaluation using Docker
 
 ```bash
 # Build Docker on local
@@ -83,7 +83,7 @@ docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlight
 </div>
 
 
-## Push and Pull Data using DVC
+## Session5 :  Push and Pull Data using DVC
 
 ```bash
 # Track and update your data by creating or updating data.dvc file.
@@ -107,7 +107,7 @@ dvc install
 
 ```
 
-## Run Inference on Kaggle's cats and dogs dataset
+### Run Inference on Kaggle's cats and dogs dataset
 ```bash
 # If installed using dev mode, run infer with experiment/cat_dog_infer.yaml using
 src_infer experiment=cat_dog_infer test_path=./data/PetImages_split/test/Cat/18.jpg
@@ -123,7 +123,7 @@ python src/infer.py experiment=cat_dog_infer test_path=./data/PetImages_split/te
 
 </div>
 
-## Train using Hydra multirun with Joblib launcher (Dataset cifar10, Model Vit, patch_size 1,2,4,8,16)
+## Session6 : Train using Hydra multirun with Joblib launcher (Dataset cifar10, Model Vit, patch_size 1,2,4,8,16)
 ```bash
 # Build Docker on local
 docker build -t lightning-hydra-multiexperiments .
@@ -177,7 +177,7 @@ git add logs.dvc
 
 </div>
 
-## HyperParameter Optimization using Optuna & Hydra Multirun (Dataset HarryPotter, Model GPT)
+## Session7 : HyperParameter Optimization using Optuna & Hydra Multirun (Dataset HarryPotter, Model GPT)
 <a href="https://colab.research.google.com/github/RSWAIN1486/emlov3-pytorchlightning-hydra/blob/main/examples/HParams_Optimization_Lightning_Hydra_Optuna_GPT_HarryPotter.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 ```bash
 # Find the Best Learning Rate and Batch size using Lightning Tuner
@@ -211,3 +211,51 @@ model.block_size=8 model.net.block_size=8 model.net.n_embed=256 model.net.n_head
 
 
 </div>
+
+## Session8 : Gradio Demo with TorchScript model (Dataset Cifar10, Model Vit)
+
+```bash
+# Install in dev mode
+pip install -e .
+
+# Train the Vit model on Cifar10 and save as TorchScript model. Set save_torchscript to True in configs/train.yaml
+src_train experiment=cifar10_jit save_torchscript=True
+
+# Infer on a test image using Torchscript model
+src_infer_jit_script_vit test_path=./test/0000.jpg
+
+# Launch Gradio Demo for Cifar10 at port 8080 and open http://localhost:8080/
+# NOTE: Set the ckpt_path and labels_path in configs/infer_jit_script_vit.yaml
+src_demo_jit_script_vit
+
+# Build and Launch Gradio Demo using Docker. This should launch demo at http://localhost:8080/. Ensure to expose the port in docker-compose/ DockerFile.demo
+docker compose  -f docker-compose.yml up --build demo
+
+# Launch Gradio demo by pulling from Dockerhub
+docker run -p 8080:8080 rswain1486/gradio-cifar10-demo:latest
+
+# To stop the demo, if the Ctrl + C does not work, use
+docker stop $(docker ps -aq)
+
+```
+#### Gradio UI for Cifar10
+
+<div align="left">
+
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/af46c1f1-a702-41c0-bbfe-45ccb97f718f)
+
+</div>
+
+## Session8 : Gradio Demo with Torch Trace model (Dataset HarryPotter, Model GPT)
+
+```bash
+# Install in dev mode
+pip install -e .
+
+# Train the GPT model on HarryPotter dataset and save as Torch traced model. Set save_torchtrace to True in configs/train.yaml
+src_train -m experiment=harrypotter_jit.yaml test=False trainer.max_epochs=20 trainer.accelerator=gpu save_torchtrace=True paths.ckpt_jittrace_save_path=ckpt/gpt_torch_traced.pt
+
+# Generate text using Torch traced model
+src_infer_jit_trace_gpt ckpt_path=ckpt/gpt_torch_traced.pt input_txt='Avada Kedavra'
+
+```

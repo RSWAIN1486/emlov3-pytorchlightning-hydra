@@ -31,23 +31,18 @@ root = pyrootutils.setup_root(
 # ------------------------------------------------------------------------------------ #
 
 from typing import List, Tuple
-from PIL import Image
 import hydra
 from omegaconf import DictConfig
-import lightning.pytorch as L
-from lightning.pytorch import LightningModule
 import torch
-import torch.nn.functional as F
-import torchvision.transforms as T
-import json
+import tiktoken
 from src import utils
+
 
 log = utils.get_pylogger(__name__)
 
-categories = [  "cat", "dog"]
-
 @utils.task_wrapper
-def infer(cfg: DictConfig) -> Tuple[dict, dict]:
+
+def infer(cfg: DictConfig) -> Tuple[str, str]:
     """Evaluates given checkpoint on a datamodule testset.
 
     This method is wrapped in optional @task_wrapper decorator which applies extra utilities
@@ -61,53 +56,48 @@ def infer(cfg: DictConfig) -> Tuple[dict, dict]:
     """
 
     assert cfg.ckpt_path
+    assert cfg.input_txt
 
     # set seed for random number generators in pytorch, numpy and python.random
     if cfg.get("seed"):
-        L.seed_everything(cfg.seed, workers=True)
+        torch.manual_seed(42)
 
-    log.info(f"Instantiating model <{cfg.model._target_}>")
-    model: LightningModule = hydra.utils.instantiate(cfg.model)
+    log.info(f"Instantiating traced model <{cfg.ckpt_path}>")
+    loaded_model = torch.jit.load(cfg.ckpt_path)
 
-    log.info(f"Instantiating best model <{cfg.ckpt_path}>")
-    ckpt = torch.load(cfg.ckpt_path)
+    # encoder
+    cl100k_base = tiktoken.get_encoding("cl100k_base")
 
-    model.load_state_dict(ckpt["state_dict"])
-    model.eval()
+    # In production, load the arguments directly instead of accessing private attributes
+    # See openai_public.py for examples of arguments for specific encodings
+    encoder = tiktoken.Encoding(
+        # If you're changing the set of special tokens, make sure to use a different name
+        # It should be clear from the name what behaviour to expect.
+        name="cl100k_im",
+        pat_str=cl100k_base._pat_str,
+        mergeable_ranks=cl100k_base._mergeable_ranks,
+        special_tokens={
+            **cl100k_base._special_tokens,
+            "<|im_start|>": 100264,
+            "<|im_end|>": 100265,
+                }
+            )
 
-    log.info(f"Loaded Model: {model}")
-   
-    transforms = T.Compose(
-        [
-            T.Resize((32, 32)),
-            T.ToTensor(),
-            T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        ]
-    )
+    input_enc = torch.tensor(encoder.encode(cfg.input_txt))
+    with torch.no_grad():
+        out_gen = loaded_model.model.generate(input_enc.unsqueeze(0).long(), max_new_tokens=256)
+    decoded = encoder.decode(out_gen[0].cpu().numpy().tolist())
 
-    image_path = cfg.test_path
-    img = Image.open(image_path)
-    if img is None:
-        return None
-    img = transforms(img).unsqueeze(0)
-    logits = model(img)
-    preds = F.softmax(logits, dim=1).squeeze(0).tolist()
-    out = torch.topk(torch.tensor(preds), 2)
-    topk_prob  = out[0].tolist()
-    topk_label = out[1].tolist()
-    
-    print(' \n Top k Predictions :')
-    pred_json  = {categories[topk_label[i]]: topk_prob[i] for i in range(2)}
-    print(json.dumps(pred_json, indent = 3))
-    print('\n')
-    
-    return pred_json
+    print(' \n \n <------------- Harry Potter Generated Text -------------> \n \n')
+    print(decoded)
+    print('\n \n <------------- End of Tokens -------------> \n \n')
+
+    return decoded, '' 
 
 
-@hydra.main(version_base="1.3", config_path="../configs", config_name="infer.yaml")
+@hydra.main(version_base="1.3", config_path="../configs", config_name="infer_jit_trace_gpt.yaml")
 def main(cfg: DictConfig) -> None:
-    infer(cfg)
-
-
+    result_str, _ = infer(cfg)
+    
 if __name__ == "__main__":
     main()

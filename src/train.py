@@ -44,6 +44,7 @@ from src import utils
 import os
 log = utils.get_pylogger(__name__)
 from lightning.pytorch.tuner import Tuner
+from pathlib import Path
 
 @utils.task_wrapper
 def train(cfg: DictConfig) -> Tuple[dict, dict]:
@@ -112,6 +113,57 @@ def train(cfg: DictConfig) -> Tuple[dict, dict]:
         trainer.save_checkpoint(ckpt_save_path)
 
     train_metrics = trainer.callback_metrics
+
+    if cfg.get("save_torchscript"):
+        scripted_model = model.to_torchscript(method="script")
+
+        if cfg.paths.get("ckpt_jitscript_save_path"):
+            save_path =  cfg.paths.ckpt_jitscript_save_path   
+        else:    
+            save_path = os.path.join(cfg.paths.ckpt_dir, 'model_script.pt')
+            
+        torch.jit.save(scripted_model, f"{save_path}")
+
+        log.info(f"Saving scripted model to {save_path}")
+
+        
+        if os.path.exists(save_path):
+            log.info(f"Loading saved scripted model at {save_path}")
+            loaded_model = torch.jit.load(save_path)
+            print(loaded_model)
+
+
+    if cfg.get("save_torchtrace"):
+
+        # import os
+        # os.environ['PYTORCH_JIT'] = '1'
+
+        # sample_input = next(iter(datamodule.train_dataloader()))[0]
+        
+        # Use this instead of trainloader if your batch size is high as colab runs out of memory and exits without error while tracing.
+        sample_input = torch.randint(0, 128, (128, datamodule.hparams.block_size)) 
+
+        log.info(f"Starting to trace model")
+        # Set the model to evaluation mode
+        model.eval()
+        traced_model = torch.jit.trace(model, sample_input)
+
+        log.info(f"Model has been traced")
+
+        if cfg.paths.get("ckpt_jittrace_save_path"):
+            save_path =  cfg.paths.ckpt_jittrace_save_path   
+        else:    
+            save_path = os.path.join(cfg.paths.ckpt_dir, 'model_trace.pt')
+            
+        torch.jit.save(traced_model, f"{save_path}")
+
+        log.info(f"Saving traced model to {save_path}")
+
+        
+        if os.path.exists(save_path):
+            log.info(f"Loading saved traced model at {save_path}")
+            loaded_model = torch.jit.load(save_path)
+            print(loaded_model)
 
     if cfg.get("test"):
         log.info("Starting testing!")
