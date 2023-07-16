@@ -19,6 +19,9 @@ ______________________________________________________________________
 - Track your data and models using dvc
 - Run training and inference on Kaggle's cats and dogs dataset using Vit Transformer model.
 - Use hydra multirun using joblib to train vit model on cifar10 dataset for multiple patch size using docker and view mlflow logger UI during runtime.
+- HyperParameter Optimization using Optuna & Hydra Multirun using GPT model on Harry Potter Dataset
+- Gradio Demo for inference using TorchScript Vit model on Cifar10 Dataset
+- Gradio Demo for inference using GPT Torch Traced model on Harry Potter Dataset
 
 ## Run on Local
 
@@ -263,3 +266,11 @@ src_infer_jit_trace_gpt ckpt_path=ckpt/gpt_torch_traced.pt input_txt='Avada Keda
 # Launch Gradio demo
 src_demo_jit_trace_gpt ckpt_path=ckpt/gpt_torch_traced.pt
 ```
+#### Gradio UI for generating Harry Potter text using GPT
+
+<div align="left">
+
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/6f5b76fb-38b4-4a53-b51f-88d33b109f73)
+
+
+</div>
