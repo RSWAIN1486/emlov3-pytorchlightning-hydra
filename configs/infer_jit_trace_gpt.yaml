@@ -18,7 +18,7 @@ task_name: "infer_jit_trace_gpt"
 
 # simply provide checkpoint path to resume training
 # ckpt_path: null
-ckpt_path: ${paths.root_dir}/ckpt/model_traced.pt
+ckpt_path: ${paths.root_dir}/ckpt/gpt_torch_traced.pt
 
 # Input text
 input_txt: 'Avada Kedavra'
