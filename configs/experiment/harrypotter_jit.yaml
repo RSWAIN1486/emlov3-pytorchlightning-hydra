@@ -26,11 +26,11 @@ trainer:
   min_epochs: 0
   max_epochs: 1
   logger: True
-  limit_val_batches: 0.1
   enable_checkpointing: True
   accelerator: 'auto'
   devices: 1
-  
+  check_val_every_n_epoch: 1
+  limit_val_batches: 0.2
 
 datamodule:
   num_workers: 0

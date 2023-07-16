@@ -11,4 +11,4 @@ services:
     ports:
       - 8080:8080
 
-    command: python3 src/gradio/demo_jit.py
+    command: python3 src/gradio/demo_jit_script_vit.py

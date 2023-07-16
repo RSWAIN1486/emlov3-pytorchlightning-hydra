@@ -62,7 +62,7 @@ def demo(cfg: DictConfig) -> Tuple[dict, dict]:
     demo.launch(server_name= "0.0.0.0", server_port=8080, share=True)
 
 
-@hydra.main(version_base="1.3", config_path="../../configs", config_name="infer_jit.yaml")
+@hydra.main(version_base="1.3", config_path="../../configs", config_name="infer_jit_script_vit.yaml")
 def main(cfg: DictConfig) -> None:
     demo(cfg)
 

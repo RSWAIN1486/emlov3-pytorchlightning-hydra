@@ -11,20 +11,17 @@ defaults:
 #   - experiment: null
 
 # task name, determines output directory path
-task_name: "infer"
+task_name: "infer_jit_trace_gpt"
 
 # # compile model for faster training with pytorch 2.0
 # compile: False
 
 # simply provide checkpoint path to resume training
 # ckpt_path: null
-ckpt_path: ${paths.root_dir}/ckpt/model_script.pt
+ckpt_path: ${paths.root_dir}/ckpt/model_traced.pt
 
-# test image
-test_path: ${paths.root_dir}/test/0000.jpg
-
-# class labels txt
-labels_path: ${paths.root_dir}/src/gradio/cifar10_classes.txt
+# Input text
+input_txt: 'Avada Kedavra'
 
 # seed for random number generators in pytorch, numpy and python.random
 seed: null

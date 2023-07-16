@@ -222,11 +222,11 @@ pip install -e .
 src_train experiment=cifar10_jit save_torchscript=True
 
 # Infer on a test image using Torchscript model
-src_infer_jit test_path=./test/0000.jpg
+src_infer_jit_script_vit test_path=./test/0000.jpg
 
 # Launch Gradio Demo for Cifar10 at port 8080 and open http://localhost:8080/
-# NOTE: Set the ckpt_path and labels_path in configs/infer_jit.yaml
-src_demo_jit
+# NOTE: Set the ckpt_path and labels_path in configs/infer_jit_script_vit.yaml
+src_demo_jit_script_vit
 
 # Build and Launch Gradio Demo using Docker. This should launch demo at http://localhost:8080/. Ensure to expose the port in docker-compose/ DockerFile.demo
 docker compose  -f docker-compose.yml up --build demo
@@ -245,3 +245,17 @@ docker stop $(docker ps -aq)
 ![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/af46c1f1-a702-41c0-bbfe-45ccb97f718f)
 
 </div>
+
+## Session8 : Gradio Demo with Torch Trace model (Dataset HarryPotter, Model GPT)
+
+```bash
+# Install in dev mode
+pip install -e .
+
+# Train the GPT model on HarryPotter dataset and save as Torch traced model. Set save_torchtrace to True in configs/train.yaml
+src_train -m experiment=harrypotter_jit.yaml test=False trainer.max_epochs=20 trainer.accelerator=gpu save_torchtrace=True paths.ckpt_jittrace_save_path=ckpt/gpt_torch_traced.pt
+
+# Generate text using Torch traced model
+src_infer_jit_trace_gpt ckpt_path=ckpt/gpt_torch_traced.pt input_txt='Avada Kedavra'
+
+```

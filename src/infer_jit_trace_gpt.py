@@ -31,20 +31,18 @@ root = pyrootutils.setup_root(
 # ------------------------------------------------------------------------------------ #
 
 from typing import List, Tuple
-from PIL import Image
 import hydra
 from omegaconf import DictConfig
 import torch
-import json
+import tiktoken
 from src import utils
-from torchvision import transforms
-from torch.nn import functional as F
+
 
 log = utils.get_pylogger(__name__)
-categories = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
 
 @utils.task_wrapper
-def infer(cfg: DictConfig) -> Tuple[dict, dict]:
+
+def infer(cfg: DictConfig) -> Tuple[str, str]:
     """Evaluates given checkpoint on a datamodule testset.
 
     This method is wrapped in optional @task_wrapper decorator which applies extra utilities
@@ -58,47 +56,48 @@ def infer(cfg: DictConfig) -> Tuple[dict, dict]:
     """
 
     assert cfg.ckpt_path
+    assert cfg.input_txt
 
     # set seed for random number generators in pytorch, numpy and python.random
     if cfg.get("seed"):
         torch.manual_seed(42)
 
-    log.info(f"Instantiating scripted model <{cfg.ckpt_path}>")
-    model = torch.jit.load(cfg.ckpt_path)
+    log.info(f"Instantiating traced model <{cfg.ckpt_path}>")
+    loaded_model = torch.jit.load(cfg.ckpt_path)
 
-    image_path = cfg.test_path
-    image = Image.open(image_path)
-    if image is None:
-        return None
+    # encoder
+    cl100k_base = tiktoken.get_encoding("cl100k_base")
 
-    predict_transform = transforms.Compose(
-                                [
-                                    transforms.Resize((32, 32)), 
-                                    transforms.ToTensor(),
-                                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-                                ]
-                            )
-    image_tensor = predict_transform(image)
-    batch_image_tensor = torch.unsqueeze(image_tensor, 0)
-    logits = model(batch_image_tensor)
+    # In production, load the arguments directly instead of accessing private attributes
+    # See openai_public.py for examples of arguments for specific encodings
+    encoder = tiktoken.Encoding(
+        # If you're changing the set of special tokens, make sure to use a different name
+        # It should be clear from the name what behaviour to expect.
+        name="cl100k_im",
+        pat_str=cl100k_base._pat_str,
+        mergeable_ranks=cl100k_base._mergeable_ranks,
+        special_tokens={
+            **cl100k_base._special_tokens,
+            "<|im_start|>": 100264,
+            "<|im_end|>": 100265,
+                }
+            )
 
-    preds = F.softmax(logits, dim=1).squeeze(0).tolist()
-    out = torch.topk(torch.tensor(preds), len(categories))
-    topk_prob  = out[0].tolist()
-    topk_label = out[1].tolist()
+    input_enc = torch.tensor(encoder.encode(cfg.input_txt))
+    with torch.no_grad():
+        out_gen = loaded_model.model.generate(input_enc.unsqueeze(0).long(), max_new_tokens=256)
+    decoded = encoder.decode(out_gen[0].cpu().numpy().tolist())
 
-    print(' \n Top k Predictions :')
-    pred_json  = {categories[topk_label[i]]: topk_prob[i] for i in range(10)}
-    print(json.dumps(pred_json, indent = 3))
-    print('\n')
-    
-    return pred_json, {}    
+    print(' \n \n <------------- Harry Potter Generated Text -------------> \n \n')
+    print(decoded)
+    print('\n \n <------------- End of Tokens -------------> \n \n')
+
+    return decoded, '' 
 
 
-@hydra.main(version_base="1.3", config_path="../configs", config_name="infer_jit.yaml")
+@hydra.main(version_base="1.3", config_path="../configs", config_name="infer_jit_trace_gpt.yaml")
 def main(cfg: DictConfig) -> None:
-    result_dict, _ = infer(cfg)
-
-
+    result_str, _ = infer(cfg)
+    
 if __name__ == "__main__":
     main()

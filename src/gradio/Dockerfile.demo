@@ -12,5 +12,5 @@ COPY src/gradio /workspace/src/gradio/
 
 EXPOSE 8080
 
-CMD [ "python3", "src/gradio/demo_jit.py"]
+CMD [ "python3", "src/gradio/demo_jit_script_vit.py"]
 
