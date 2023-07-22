@@ -141,6 +141,7 @@ dmypy.json
 
 # Data & Models
 *.h5
+*.pt
 *.tar
 *.tar.gz
 *.ckpt

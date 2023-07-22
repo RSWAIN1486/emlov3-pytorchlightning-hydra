@@ -39,6 +39,7 @@ tensorboard
 # --------- deployment ------ #
 fastapi
 gradio
+boto3
 
 # --------- others --------- #
 pyrootutils     # standardizing the project root setup

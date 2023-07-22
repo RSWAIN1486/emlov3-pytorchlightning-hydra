@@ -12,3 +12,16 @@ services:
       - 8080:8080
 
     command: python3 src/gradio/demo_jit_script_vit.py
+
+  demo_gpt:
+    build:
+      context: .
+      dockerfile: src/gradio/Dockerfile.demo_gpt_script
+    image: gradio-gpt-script-demo:latest
+    container_name: gradio-demo-gpt
+    expose:
+      - 80
+    ports:
+      - 8080:80
+
+    command: python3 src/gradio/demo_jit_script_gpt.py
