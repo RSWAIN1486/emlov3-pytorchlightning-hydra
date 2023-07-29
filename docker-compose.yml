@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  demo:
+  demo_cifar_gradio:
     build:
       context: .
       dockerfile: src/gradio/Dockerfile.demo
@@ -13,7 +13,7 @@ services:
 
     command: python3 src/gradio/demo_jit_script_vit.py
 
-  demo_gpt:
+  demo_gpt_gradio:
     build:
       context: .
       dockerfile: src/gradio/Dockerfile.demo_gpt_script
@@ -26,7 +26,7 @@ services:
 
     command: python3 src/gradio/demo_jit_script_gpt.py
 
-  demo_gpt:
+  demo_gpt_fastapi:
     build:
       context: .
       dockerfile: fastapi/gpt/Dockerfile.gpt
@@ -38,7 +38,7 @@ services:
       - 8080:8080
     command: gunicorn server_scripted_gpt:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080
 
-  demo_vit:
+  demo_vit_fastapi:
     build:
       context: .
       dockerfile: fastapi/vit/Dockerfile.vit
