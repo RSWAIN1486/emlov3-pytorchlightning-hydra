@@ -22,6 +22,8 @@ ______________________________________________________________________
 - HyperParameter Optimization using Optuna & Hydra Multirun using GPT model on Harry Potter Dataset
 - Gradio Demo for inference using TorchScript Vit model on Cifar10 Dataset
 - Gradio Demo for inference using GPT Torch Traced model on Harry Potter Dataset
+- Gradio Demo with GPT Traced model (Dataset HarryPotter, Model GPT) on AWS using ECR, ECS, S3
+- FastAPI Demo with Docker
 
 ## Run on Local
 
