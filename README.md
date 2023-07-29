@@ -294,3 +294,45 @@ docker tag <repo-name>:latest <ecr repo uri>/<repo-name>:latest
 docker push <ecr repo uri>/<repo-name>:latest
 
 ```
+
+## Session10 : FastAPI Demo with Docker
+```bash
+
+# Build and launch FastAPI using Docker. This should launch demo at http://localhost:8080/ or http://:8080/
+# for GPT
+docker-compose  -f docker-compose.yml up --build demo_gpt_fastapi
+
+# for VIT
+docker-compose  -f docker-compose.yml up --build demo_vit_fastapi
+
+# To generate a log file with individual and average response time for 100 api requests.
+# for GPT. Set the server url and log file path accordingly.
+python3 src/fastapi/gpt/test_api_calls_gpt.py
+
+# for VIT. Set the server url, input image file and log file path accordingly.
+python3 src/fastapi/vit/test_api_calls_vit.py
+
+```
+#### Average response time for GPT
+
+<div align="left">
+
+![image](https://github.com/RSWAIN1486/emlov3-fastapi/assets/48782471/39b7e473-588a-4956-b249-88aaca5bf8b0)
+
+</div>
+
+#### Average response time for VIT
+
+<div align="left">
+
+![image](https://github.com/RSWAIN1486/emlov3-fastapi/assets/48782471/6c564894-1ac6-4963-bace-d291aff77823)
+
+</div>
+
+#### CPU usage with 2 workers for GPT
+
+<div align="left">
+
+![image](https://github.com/RSWAIN1486/emlov3-fastapi/assets/48782471/2bff0f77-f7cd-4a6f-8e84-552824b78650)
+
+</div>
