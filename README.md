@@ -232,7 +232,7 @@ src_infer_jit_script_vit test_path=./test/0000.jpg
 src_demo_jit_script_vit
 
 # Build and Launch Gradio Demo using Docker. This should launch demo at http://localhost:8080/. Ensure to expose the port in docker-compose/ DockerFile.demo
-docker compose  -f docker-compose.yml up --build demo
+docker compose  -f docker-compose.yml up --build demo_cifar_gradio
 
 # Launch Gradio demo by pulling from Dockerhub
 docker run -p 8080:8080 rswain1486/gradio-cifar10-demo:latest
@@ -274,3 +274,23 @@ src_demo_jit_trace_gpt ckpt_path=ckpt/gpt_torch_traced.pt
 
 
 </div>
+
+## Session9 : Gradio Demo with GPT Traced model (Dataset HarryPotter, Model GPT) on AWS using ECR, ECS, S3
+```bash
+
+# Build and Launch Gradio Demo using Docker. This should launch demo at http://localhost:80/. 
+docker compose  -f docker-compose.yml up --build demo_gpt_gradio
+
+# Test using
+python3 src/gradio/test_demo_jit_script_gpt.py
+
+# If aws is configured, push the model to S3 using. Set the bucket_name and model_file_path.
+python3 src/aws/push_model_S3.py
+
+# To push your docker image to ECR, run below commands
+aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin <ecr repo uri>
+docker build -t <repo-name> .
+docker tag <repo-name>:latest <ecr repo uri>/<repo-name>:latest
+docker push <ecr repo uri>/<repo-name>:latest
+
+```
