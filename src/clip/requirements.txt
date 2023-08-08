@@ -1,0 +1,5 @@
+fastapi[all]==0.98.0
+transformers==4.30.2
+datasets==2.13.1
+Pillow==9.5.0
+locust
