@@ -16,7 +16,7 @@ class StressTest(HttpUser):
         # Create a dictionary for the files to be uploaded
         files = {
             "text": (None, text),
-            "file": ("test.jpg", open(image_path, "rb"), "image/jpeg")
+            "file": ("test_clip.jpeg", open(image_path, "rb"), "image/jpeg")
         }
 
         res = self.client.post(
