@@ -49,3 +49,15 @@ services:
     ports:
       - 8080:8080
     command: gunicorn server_scripted_vit:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080
+
+  demo_clip_fastapi:
+    build:
+      context: .
+      dockerfile: src/clip/Dockerfile.clip
+    image: clip-fastapi:latest
+    container_name: clip-fastapi-demo
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    command: uvicorn server:app --host 0.0.0.0 --port 8080
