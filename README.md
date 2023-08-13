@@ -2,7 +2,10 @@ ______________________________________________________________________
 
 <div align="center">
 
-# Lightning-Hydra-DVC-AWS
+# Extensive MLOps 
+
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/8be39374-ad41-418a-bf5e-4071820224a7)
+
 
 <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a>
 <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/-Lightning-792ee5?logo=pytorchlightning&logoColor=white"></a>
@@ -14,21 +17,50 @@ ______________________________________________________________________
 </div>
 
 # Overview
+This repository is an implementation of all the sessions covered as part of EMLO V3.0 course. [Course Syllabus](https://docs.google.com/document/u/1/d/e/2PACX-1vT2LBXrRYbg7NM4Q6j2rMSokiC3Vt_rMk4E8k_vTUSJt_4HAEFfSsO_DAmOCl6nV3fRbwmSdadbBfTL/pub)
 
+# Main Technologies used
+- [PyTorch Lightning](https://github.com/PyTorchLightning/pytorch-lightning) - a lightweight PyTorch wrapper for high-performance AI research. Think of it as a framework for organizing your PyTorch code.
+
+- [Docker](https://docs.docker.com/get-started/overview/) - an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly
+
+- [Hydra](https://github.com/facebookresearch/hydra) - a framework for elegantly configuring complex applications. The key feature is the ability to dynamically create a hierarchical configuration by composition and override it through config files and the command line.
+
+- [DVC](https://github.com/iterative/dvc) - a command line tool to help you develop reproducible machine learning projects by versioning your data and models.
+
+- [MLFlow](https://github.com/mlflow/mlflow) - a platform to streamline machine learning development, including tracking experiments, packaging code into reproducible runs, and sharing and deploying models
+
+- [Optuna](https://github.com/optuna/optuna) - an automatic hyperparameter optimization software framework, particularly designed for machine learning
+
+- [TorchScript](https://pytorch.org/docs/stable/jit.html) - a way to create serializable and optimizable models from PyTorch code.
+
+- [TorchTrace](https://pytorch.org/docs/stable/generated/torch.jit.trace.html) - a way to trace a function and return an executable or ScriptFunction that will be optimized using just-in-time compilation.
+
+- [Gradio](https://github.com/gradio-app/gradio) - an open-source Python library that is used to quickly build machine learning and data science demos and web applications.
+
+- [FastAPI](https://github.com/tiangolo/fastapi) - a modern, fast (high-performance), web framework for building APIs with Python 3.7+ based on standard Python type hints.
+
+- [Locust](https://github.com/locustio/locust) - an easy to use, scriptable and scalable performance testing tool.
+
+- [AWS ECS](https://docs.aws.amazon.com/ecs/index.html) - a highly scalable, fast, container management service that makes it easy to run, stop, and manage Docker containers on a cluster of Amazon EC2 instances.
+
+- [AWS Fargate](https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html) - a technology that you can use with Amazon ECS to run containers without having to manage servers or clusters of Amazon EC2 instances.
+
+- [AWS ECR](https://docs.aws.amazon.com/AmazonECS/latest/userguide/ecr-repositories.html) - a managed AWS Docker registry service that can be used with ECS.
 
 # Table of Contents
 
 - [Session 4  : How to run on local](#how-to-run-on-local)
-- [Session 4  : Run Training and Evaluation using Docker on Cifar10 using TIMM models with Pytorch lightning & Hydra](Run-Training-and-Evaluation-using-Docker-on-Cifar10-using-TIMM-models-with-Pytorch-lightning-&-Hydra)
-- [Session 5  : How to Push and Pull Data & Models using DVC](How-to-Push-and-Pull-Data-&-Models-using-DVC)
-- Session 5  : Run Inference on Kaggle's cats and dogs dataset using Vit Transformer model..
-- Session 6  : Train using Hydra multirun with Joblib launcher (Dataset cifar10, Model Vit, patch_size 1,2,4,8,16) & View Runs in MLflow
-- Session 7  : HyperParameter Optimization using Optuna & Hydra Multirun (Dataset HarryPotter, Model GPT)
-- Session 8  : Gradio Demo with TorchScript model (Dataset Cifar10, Model Vit)
-- Session 8  : Gradio Demo with Torch Trace model (Dataset HarryPotter, Model GPT)
-- Session 9  : Gradio Demo with GPT Traced model (Dataset HarryPotter, Model GPT) on AWS using ECR, ECS, S3
-- Session 10 : FastAPI Demo with Docker
-- Session 11 : Deploy CLIP with Docker, FastAPI on ECS Fargate (Multi Replicas) and Stress Test with Locust
+- [Session 4  : Run Training and Evaluation using Docker on Cifar10 using TIMM models with Pytorch lightning and Hydra](#run-training-and-evaluation-using-docker-on-cifar10-using-timm-models-with-pytorch-lightning-and-hydra)
+- [Session 5  : How to Push and Pull Data and Models using DVC](#how-to-push-and-pull-data-and-models-using-dvc)
+- [Session 5  : Run Inference on Kaggle's cats and dogs dataset using Vit Transformer model](#run-training-and-inference-on-kaggle-cats-and-dogs-dataset-using-vit-transformer-model)
+- [Session 6  : Train using Hydra multirun with Joblib launcher (Dataset cifar10, Model Vit, patch_size 1,2,4,8,16) and View Runs in MLflow](#train-using-hydra-multirun-with-joblib-launcher-and-view-runs-in-mlflow)
+- [Session 7  : HyperParameter Optimization using Optuna and Hydra Multirun (Dataset HarryPotter, Model GPT)](#hyperparameter-optimization-using-optuna-and-hydra-multirun)
+- [Session 8  : Gradio Demo with Torch Script model (Dataset Cifar10, Model Vit)](#gradio-demo-with-torchscript-model)
+- [Session 8  : Gradio Demo with Torch Trace model (Dataset HarryPotter, Model GPT)](#gradio-demo-with-torch-trace-model)
+- [Session 9  : Gradio Demo with GPT Traced model (Dataset HarryPotter, Model GPT) on AWS using ECR, ECS, S3](#gradio-demo-with-gpt-traced-model)
+- [Session 10 : FastAPI Demo with Docker](#fastapi-demo-with-docker)
+- [Session 11 : Deploy CLIP with Docker and FastAPI on ECS Fargate (Multi Replicas) and Stress Test with Locust](#deploy-clip-with-docker-and-fastapi-on-ecs-fargate-and-stress-test-with-locust)
 
 ## How to Run on Local
 
@@ -68,7 +100,7 @@ python src/train.py trainer.max_epochs=20 data.batch_size=64
 ```
 
 
-## Run Training and Evaluation using Docker on Cifar10 using TIMM models with Pytorch lightning & Hydra
+## Run Training and Evaluation using Docker on Cifar10 using TIMM models with Pytorch lightning and Hydra
 
 ```bash
 # Build Docker on local
@@ -77,7 +109,7 @@ docker build -t emlov3-pytorchlightning-hydra .
 docker pull rswain1486/emlov3-pytorchlightning-hydra:latest
 
 # Since checkpoint will not be persisted between container runs if train and eval are run separately, use below command to run together. 
-docker run rswain1486/emlov3-pytorchlightning-hydra sh -c "python3 src/train.py && python3 src/eval.py"
+docker run rswain1486/emlov3-pytorchlightning-hydra sh -c "python3 src/train.py andand python3 src/eval.py"
 
 # Using volume you can mount checkpoint to host directory and run train and eval separately.
 docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlightning-hydra python src/train.py
@@ -93,7 +125,7 @@ docker run --rm -t -v ${pwd}/ckpt:/workspace/ckpt rswain1486/emlov3-pytorchlight
 </div>
 
 
-## How to Push and Pull Data & Models using DVC
+## How to Push and Pull Data and Models using DVC
 
 ```bash
 # Track and update your data by creating or updating data.dvc file.
@@ -117,7 +149,7 @@ dvc install
 
 ```
 
-### Run Training and Inference on Kaggle's cats and dogs dataset using Vit Transformer model.
+### Run Training and Inference on Kaggle cats and dogs dataset using Vit Transformer model
 ```bash
 # Training
 # If installed using dev mode, run infer with experiment/cat_dog_infer.yaml using
@@ -141,7 +173,7 @@ python src/infer.py experiment=cat_dog_infer test_path=./data/PetImages_split/te
 
 </div>
 
-## Train using Hydra multirun with Joblib launcher (Dataset cifar10, Model Vit, patch_size 1,2,4,8,16) & View Runs in MLflow
+## Train using Hydra multirun with Joblib launcher and View Runs in MLflow
 ```bash
 # Build Docker on local
 docker build -t lightning-hydra-multiexperiments .
@@ -195,7 +227,7 @@ git add logs.dvc
 
 </div>
 
-## HyperParameter Optimization using Optuna & Hydra Multirun (Dataset HarryPotter, Model GPT)
+## HyperParameter Optimization using Optuna and Hydra Multirun
 <a href="https://colab.research.google.com/github/RSWAIN1486/emlov3-pytorchlightning-hydra/blob/main/examples/HParams_Optimization_Lightning_Hydra_Optuna_GPT_HarryPotter.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 ```bash
 # Find the Best Learning Rate and Batch size using Lightning Tuner
@@ -230,7 +262,7 @@ model.block_size=8 model.net.block_size=8 model.net.n_embed=256 model.net.n_head
 
 </div>
 
-## Gradio Demo with TorchScript model (Dataset Cifar10, Model Vit)
+## Gradio Demo with TorchScript model
 
 ```bash
 # Install in dev mode
@@ -264,7 +296,7 @@ docker stop $(docker ps -aq)
 
 </div>
 
-## Gradio Demo with Torch Trace model (Dataset HarryPotter, Model GPT)
+## Gradio Demo with Torch Trace model
 
 <a href="https://colab.research.google.com/github/RSWAIN1486/emlov3-pytorchlightning-hydra/blob/main/examples/GPT_HarryPotter_TorchTrace.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 
@@ -290,7 +322,7 @@ src_demo_jit_trace_gpt ckpt_path=ckpt/gpt_torch_traced.pt
 
 </div>
 
-## Gradio Demo with GPT Traced model (Dataset HarryPotter, Model GPT) on AWS using ECR, ECS, S3
+## Gradio Demo with GPT Traced model
 ```bash
 
 # Build and Launch Gradio Demo using Docker. This should launch demo at http://localhost:80/
@@ -352,7 +384,7 @@ python3 src/fastapi/vit/test_api_calls_vit.py
 
 </div>
 
-## Deploy CLIP with Docker, FastAPI on ECS Fargate (Multi Replicas) and Stress Test with Locust
+## Deploy CLIP with Docker and FastAPI on ECS Fargate and Stress Test with Locust
 ```bash
 
 # Build and launch CLIP using FastAPI. This should launch demo at http://localhost:80/ or http://<ec2-public-ip>:80/docs
