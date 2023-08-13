@@ -419,6 +419,6 @@ npm run dev
 
 <div align="left">
 
-![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/540755fb-ec62-4b0b-8afc-204927d5d7da)
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/b366f477-e148-4fff-82bd-5ae45423aee7)
 
 </div>
