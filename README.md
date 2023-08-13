@@ -18,7 +18,7 @@ ______________________________________________________________________
 
 # Table of Contents
 
-- [Session 4  : How to run on local](How-to-Run-on-Local)
+- [Session 4  : How to run on local](#how-to-run-on-local)
 - [Session 4  : Run Training and Evaluation using Docker on Cifar10 using TIMM models with Pytorch lightning & Hydra](Run-Training-and-Evaluation-using-Docker-on-Cifar10-using-TIMM-models-with-Pytorch-lightning-&-Hydra)
 - [Session 5  : How to Push and Pull Data & Models using DVC](How-to-Push-and-Pull-Data-&-Models-using-DVC)
 - Session 5  : Run Inference on Kaggle's cats and dogs dataset using Vit Transformer model..
