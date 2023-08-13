@@ -4,7 +4,7 @@ ______________________________________________________________________
 
 # Extensive MLOps 
 
-![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/8be39374-ad41-418a-bf5e-4071820224a7)
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/bcdba086-2490-470f-8a27-fb6c17f38baa)
 
 
 <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a>
