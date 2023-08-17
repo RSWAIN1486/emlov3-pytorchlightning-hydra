@@ -1,0 +1,5 @@
+fastapi[all]==0.98.0
+numpy==1.25.0
+onnxruntime==1.15.1
+mangum==0.17.0
+Pillow==9.5.0

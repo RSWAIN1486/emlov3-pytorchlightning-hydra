@@ -57,7 +57,19 @@ services:
     image: clip-fastapi:latest
     container_name: clip-fastapi-demo
     expose:
+      - 80
+    ports:
+      - 80:80
+    command: uvicorn server:app --host 0.0.0.0 --port 80
+
+  demo_lambda_fastapi:
+    build:
+      context: .
+      dockerfile: src/aws/lambda/Dockerfile.lambda
+    image: lambda-fastapi:latest
+    container_name: lambda-fastapi-demo
+    expose:
       - 8080
     ports:
       - 8080:8080
-    command: uvicorn server:app --host 0.0.0.0 --port 8080
+    command: server.handler
