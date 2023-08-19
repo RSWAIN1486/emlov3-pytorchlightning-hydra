@@ -48,6 +48,8 @@ This repository is an implementation of all the sessions covered as part of EMLO
 
 - [AWS ECR](https://docs.aws.amazon.com/AmazonECS/latest/userguide/ecr-repositories.html) - a managed AWS Docker registry service that can be used with ECS.
 
+- [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) - a compute service that lets you run code without provisioning or managing servers.
+
 # Table of Contents
 
 - [Session 4  : How to run on local](#how-to-run-on-local)
@@ -396,6 +398,7 @@ docker-compose  -f docker-compose.yml up --build demo_clip_fastapi
 # To start locust server and start swarming. By default, server should start at http://localhost:8089/ or http://<ec2-public-ip>:8089/
 python3 src/clip/locust_stress_test_clip.py
 
+# Frontend
 # To install nvm
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
 nvm install 16
@@ -420,5 +423,44 @@ npm run dev
 <div align="left">
 
 ![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/b366f477-e148-4fff-82bd-5ae45423aee7)
+
+</div>
+
+## Deploy ImageNet Classifier on AWS Lambda
+```bash
+
+# Build and launch ImageNet Classifier using FastAPI with Mangum wrapper. This should launch demo at http://localhost:8080/ or http://<ec2-public-ip>:8080/docs
+
+docker-compose  -f docker-compose.yml up --build demo_lambda_fastapi
+
+# Push docker image to AWS Private repository only as Lambda supports private repo only
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <ecr repo uri>
+docker build -t <repo-name> .
+docker tag <repo-name>:latest <ecr repo uri>/<repo-name>:latest
+docker push <ecr repo uri>/<repo-name>:latest
+
+# Create API endpoint in AWS Lambda. Should be of the format : https://{restapi_id}.execute-api.{region}.amazonaws.com/{stage_name}/
+
+# Frontend - Create a new github repo for the front end for Vercel deployment.
+# To install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+nvm install 16
+nvm use 16
+cd src/aws/lambda/lambda-frontend
+npx create-next-app@latest lambda-frontend
+
+# To start the clip front end, edit the page.tsx, layout.tsx, tailwind.config.ts files accordingly and run
+npm run dev
+
+```
+#### Git Repository : [Vercel Frontend for Lambda backend](https://github.com/RSWAIN1486/lambda-classifier-fastapi)
+
+#### Web Frontend   : [Vercel app](https://lambda-classifier-fastapi.vercel.app/)
+
+#### ImageNet Classifier Deployed on Vercel with AWS Lambda
+
+<div align="left">
+  
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/ec55f136-f561-4ec6-9508-96c6e93b2d61)
 
 </div>
