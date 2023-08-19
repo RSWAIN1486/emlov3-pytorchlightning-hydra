@@ -63,6 +63,8 @@ This repository is an implementation of all the sessions covered as part of EMLO
 - [Session 9  : Gradio Demo with GPT Traced model (Dataset HarryPotter, Model GPT) on AWS using ECR, ECS, S3](#gradio-demo-with-gpt-traced-model)
 - [Session 10 : FastAPI Demo with Docker](#fastapi-demo-with-docker)
 - [Session 11 : Deploy CLIP with Docker and FastAPI on ECS Fargate (Multi Replicas) and Stress Test with Locust](#deploy-clip-with-docker-and-fastapi-on-ecs-fargate-and-stress-test-with-locust)
+- [Session 12 : Deploy ImageNet Classifier on AWS Lambda using Docker, FastAPI with Vercel Frontend](#deploy-imagenet-classifier-on-aws-lambda)
+
 
 ## How to Run on Local
 
