@@ -50,6 +50,8 @@ This repository is an implementation of all the sessions covered as part of EMLO
 
 - [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) - a compute service that lets you run code without provisioning or managing servers.
 
+- [TorchServe](https://github.com/pytorch/serve) - a flexible and easy to use tool for serving and scaling PyTorch models in production.
+
 # Table of Contents
 
 - [Session 4  : How to run on local](#how-to-run-on-local)
@@ -63,7 +65,8 @@ This repository is an implementation of all the sessions covered as part of EMLO
 - [Session 9  : Gradio Demo with GPT Traced model (Dataset HarryPotter, Model GPT) on AWS using ECR, ECS, S3](#gradio-demo-with-gpt-traced-model)
 - [Session 10 : FastAPI Demo with Docker](#fastapi-demo-with-docker)
 - [Session 11 : Deploy CLIP with Docker and FastAPI on ECS Fargate (Multi Replicas) and Stress Test with Locust](#deploy-clip-with-docker-and-fastapi-on-ecs-fargate-and-stress-test-with-locust)
-- [Session 12 : Deploy ImageNet Classifier on AWS Lambda using Docker, FastAPI with Vercel Frontend](#deploy-imagenet-classifier-on-aws-lambda)
+- [Session 12 : Deploy ImageNet Classifier on AWS Lambda using Docker, FastAPI with Frontend in Nextjs on Vercel](#deploy-imagenet-classifier-on-aws-lambda)
+- [Session 13 : Deploy a Stable Diffusion XL model using TorchServe on FastAPI backend and Nextjs Frontend](#deploy-stable-diffusion-using-torchserve)
 
 
 ## How to Run on Local
@@ -464,5 +467,48 @@ npm run dev
 <div align="left">
   
 ![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/ec55f136-f561-4ec6-9508-96c6e93b2d61)
+
+</div>
+
+## Deploy Stable Diffusion using TorchServe
+```bash
+
+# Navigate to TorchServe
+cd src/torchserve_sdxl
+
+# Download the SDXL model and its artifacts to local. It would be download to a folder named sdxl-1.0-model
+python3 download_model.py
+
+# Zip the model artifacts
+zip -0 -r ./sdxl-1.0-model.zip sdxl-1.0-model/*
+
+# To create the MAR file (sdxl.mar) 
+docker run -it --rm --shm-size=1g --ulimit memlock=-1 --ulimit stack=67108864 --gpus all -v `pwd`:/opt/src pytorch/torchserve:0.8.1-gpu torchserve bash
+torch-model-archiver --model-name sdxl --version 1.0 --handler sdxl_handler.py --extra-files sdxl-1.0-model.zip -r requirements.txt
+
+# Once .mar file has been created, install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+nvm install 16
+nvm use 16
+
+# Now run docker compose, to start TorchServe, FastAPI and Frontend server packaged together.
+# FastAPI server will run at http://<ec2-public-ip>:9080 and frontend server at http://<ec2-public-ip>:3000
+docker compose up
+
+```
+#### Stable Diffusion XL Frontend
+
+<div align="left">
+  
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/6ae51d59-4d32-48ce-9491-5bdaf77468c0)
+
+</div>
+
+#### Stable Diffusion Logs during Inference
+
+<div align="left">
+  
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/575da4af-8bbc-47a5-b4f9-665837feed1b)
+
 
 </div>
