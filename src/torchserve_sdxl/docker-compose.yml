@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  torchserve:
+    image: pytorch/torchserve:0.8.1-gpu
+    container_name: torchserve_sdxl
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "8082:8082"
+      - "7070:7070"
+      - "7071:7071"
+    runtime: nvidia
+    volumes:
+      - /home/ubuntu/torchserve_sdxl/config.properties:/home/model-server/config.properties
+      - /home/ubuntu/torchserve_sdxl/model_store:/tmp/models
+    command: torchserve --model-store=/tmp/models
+    shm_size: '1g'
+    ulimits:
+      memlock: -1
+      stack: 67108864
+
+    
+  fastapi:
+    container_name: fastapi
+    restart: unless-stopped
+    depends_on:
+      - torchserve
+    build:
+      context: .
+      dockerfile: ./Dockerfile.fastapi
+    ports:
+      - 9080:9080
+
+  frontend:
+    container_name: vercel
+    restart: unless-stopped
+    depends_on:
+      - fastapi
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+  

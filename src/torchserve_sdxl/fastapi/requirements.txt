@@ -1,0 +1,5 @@
+fastapi[all] 
+boto3
+numpy
+requests
+pillow

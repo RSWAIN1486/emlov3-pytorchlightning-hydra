@@ -1,0 +1,17 @@
+# Use the base python image
+FROM python:3.9
+
+# Set the working directory
+WORKDIR /code
+
+# Copy and install requirements
+COPY ./fastapi/requirements.txt /code/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+# Copy server code
+COPY ./fastapi/server.py /code/
+
+EXPOSE 9080
+
+CMD ["python3", "server.py"]

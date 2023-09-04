@@ -1,0 +1,17 @@
+# Use an official Node runtime with version 16 as the base image
+FROM node:16
+
+# Change to the UI directory
+WORKDIR /app
+
+# Copy the Next.js application files
+COPY ./frontend /app/
+
+# Install dependencies in container
+RUN npm install
+
+# Change permissions (if needed)
+# RUN chmod -R 755 .
+
+# Start the Next.js development server
+CMD ["npm", "run", "dev"]
