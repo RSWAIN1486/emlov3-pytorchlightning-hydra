@@ -56,6 +56,10 @@ This repository is an implementation of all the sessions covered as part of EMLO
 
 - [WASM](https://webassembly.org/) - WebAssembly (abbreviated Wasm) is a binary instruction format for compiling and executing code in a client-side web browser
 
+- [Captum](https://github.com/pytorch/captum) - A model interpretability and understanding library for PyTorch
+
+- [Shap](https://github.com/shap/shap) - SHAP (SHapley Additive exPlanations) is a game theoretic approach to explain the output of any machine learning model
+
 # Table of Contents
 
 - [Session 4  : How to run on local](#how-to-run-on-local)
@@ -72,6 +76,7 @@ This repository is an implementation of all the sessions covered as part of EMLO
 - [Session 12 : Deploy ImageNet Classifier on AWS Lambda using Docker, FastAPI with Frontend in Nextjs on Vercel](#deploy-imagenet-classifier-on-aws-lambda)
 - [Session 13 : Deploy a Stable Diffusion XL model using TorchServe on FastAPI backend and Nextjs Frontend](#deploy-stable-diffusion-using-torchserve)
 - [Session 14 : Deploy Yolov8 Detection model in Onnx format on browser using WASM backend and Nextjs on Vercel frontend ](#deploy-yolov8-on-browser)
+- [Session 15 : How to perform model interpretability for CV and NLP tasks](#model-explainability-in-cv-and-nlp)
 
 
 ## How to Run on Local
@@ -552,5 +557,43 @@ npm run dev
 <div align="left">
   
 ![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/2f280bee-34dc-466e-9948-deb8701e7aa6)
+
+</div>
+
+
+## Model Explainability in CV and NLP
+```bash
+# Navigate to explainable ai
+cd src/explainable_ai
+
+# For NLP, install the reqd libraries.
+pip install --quiet transformers shap sentencepiece datasets einops accelerate
+
+# Run the explainable_NLP.ipynb and store NLP output screenshots under output/nlp
+
+# Install reqd libraries for CV
+pip install timm shap grad-cam captum
+
+# Add input images under src/explainable_ai/input and run explain_ai.py. It will create a explainability.md
+python3 explain_ai.py
+
+```
+#### Explainable NLP Notebook : <a href="https://colab.research.google.com/github/RSWAIN1486/emlov3-pytorchlightning-hydra/blob/main/src/explainable_ai/explainable_NLP.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
+
+#### Explainability Readme   : [explainability.md](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/blob/main/src/explainable_ai/explainability.md)
+
+#### Explainable AI - CV
+
+<div align="left">
+  
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/b1769fa0-8a21-4cca-a61a-6990bbc09dc3)
+
+</div>
+
+#### Explainable AI - NLP
+
+<div align="left">
+  
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/8b48387e-6910-42d8-9fc1-ea75f8b8d8d1)
 
 </div>
