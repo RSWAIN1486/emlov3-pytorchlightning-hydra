@@ -52,6 +52,10 @@ This repository is an implementation of all the sessions covered as part of EMLO
 
 - [TorchServe](https://github.com/pytorch/serve) - a flexible and easy to use tool for serving and scaling PyTorch models in production.
 
+- [Onnx](https://github.com/onnx/onnx) - an open source format for AI models. Widely supported and can be found in many frameworks, tools, and hardware
+
+- [WASM](https://webassembly.org/) - WebAssembly (abbreviated Wasm) is a binary instruction format for compiling and executing code in a client-side web browser
+
 # Table of Contents
 
 - [Session 4  : How to run on local](#how-to-run-on-local)
@@ -67,6 +71,7 @@ This repository is an implementation of all the sessions covered as part of EMLO
 - [Session 11 : Deploy CLIP with Docker and FastAPI on ECS Fargate (Multi Replicas) and Stress Test with Locust](#deploy-clip-with-docker-and-fastapi-on-ecs-fargate-and-stress-test-with-locust)
 - [Session 12 : Deploy ImageNet Classifier on AWS Lambda using Docker, FastAPI with Frontend in Nextjs on Vercel](#deploy-imagenet-classifier-on-aws-lambda)
 - [Session 13 : Deploy a Stable Diffusion XL model using TorchServe on FastAPI backend and Nextjs Frontend](#deploy-stable-diffusion-using-torchserve)
+- [Session 14 : Deploy Yolov8 Detection model in Onnx format on browser using WASM backend and Nextjs on Vercel frontend ](#deploy-yolov8-on-browser)
 
 
 ## How to Run on Local
@@ -510,5 +515,42 @@ docker compose up
   
 ![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/575da4af-8bbc-47a5-b4f9-665837feed1b)
 
+</div>
+
+## Deploy YoloV8 on browser
+```bash
+
+# Navigate to TorchServe
+cd src/yolo_onnx_browser
+
+# Download the YoloV8s model and convert to onnx format
+python3 yolo_to_onnx.py
+
+# Run below to create the frontend
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+nvm install 16
+nvm use 16
+npx create-next-app@latest frontend
+
+# Create model folder under frontend/public
+mkdir front/public/model
+
+# Copy the required yolo models to model folder
+cp nms-yolov8.onnx yolov8s.onnx frontend/public/model
+
+# To start the Yolov8 front end, edit the page.tsx, layout.tsx, tailwind.config.ts files accordingly and run
+npm run dev
+
+```
+
+#### Git Repository : [YoloV8 on browser](https://github.com/RSWAIN1486/emlov3-yolo-browser)
+
+#### Web Frontend   : [Vercel app](https://emlov3-yolo-browser.vercel.app/)
+
+#### YoloV8 on browser
+
+<div align="left">
+  
+![image](https://github.com/RSWAIN1486/emlov3-pytorchlightning-hydra/assets/48782471/2f280bee-34dc-466e-9948-deb8701e7aa6)
 
 </div>
